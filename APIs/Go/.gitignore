@@ -1,1 +1,5 @@
 .env
+api.rest
+apigo.exe
+go.mod
+go.sum
