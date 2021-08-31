@@ -1,0 +1,12 @@
+###
+POST http://localhost:4000/tweet
+Content-Type: application/json
+
+{
+    "Nombre": "Mouse",
+    "Comentario": "Test usando variable de entorno en google cloud",
+    "Fecha": "31/08/2021",
+    "Hashtags": "ht1,ht2,ht3",
+    "Upvotes": 7,
+    "Downvotes": 30
+}
