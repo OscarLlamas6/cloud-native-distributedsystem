@@ -4,17 +4,34 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import socketserver
 import io
 import json
-from azure.cosmos import CosmosClient, exceptions, PartitionKey
+from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 import mysql.connector
+from bson import ObjectId
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 # Setting env variables
 load_dotenv()
-URL = os.environ['COSMOSDB_URL']
-KEY = os.environ['COSMOSDB_KEY']
 PORT = int(os.environ['PYTHON_API_PORT'])
-client = CosmosClient(URL, credential=KEY)
+
+# Get these values from the Azure portal page for your cosmos db account
+cosmosUSER = os.environ['COSMOSDB_USER']
+cosmosPASS = os.environ['COSMOSDB_PASS']
+cosmosURL =  os.environ['COSMOSDB_URL']
+cosmosDB = os.environ['COSMOSDB_DBNAME']
+cosmosCOLLECTION = os.environ['COSMOSDB_COLLECTION']
+ 
+# This requires python 3.6 or above
+cosmosCONN = f'mongodb://{cosmosUSER}:{cosmosPASS}@{cosmosUSER}.{cosmosURL}'
+cosmosClient = MongoClient(cosmosCONN)
+myDB = cosmosClient[cosmosDB]
+myCOLL = myDB[cosmosCOLLECTION]
 
 googleHOST = os.environ['CLOUDSQL_HOST']
 googlePASS = os.environ['CLOUDSQL_PASS']
@@ -52,30 +69,15 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
     def do_getCosmos(self):
         
-        dbName = os.environ['COSMOSDB_DBNAME']
-        try:
-            database = client.create_database(dbName)
-            print("BASE DE DATOS CREADA! :D")
-        except exceptions.CosmosResourceExistsError:
-            database = client.get_database_client(dbName)
-            print("BASE DE DATOS YA EXISTE! :O")
-            
-        containerName = os.environ['COSMOSDB_CONTAINERNAME']   
         status = 202
         items = []
         try:
-            container = database.create_container(id=containerName, partition_key=PartitionKey(path="/tweetID"))
-            items = container.query_items(query='SELECT * FROM TWEETS',enable_cross_partition_query=True)
-        except exceptions.CosmosResourceExistsError:
-            container = database.get_container_client(containerName)
-            items = container.query_items(query='SELECT * FROM TWEETS',enable_cross_partition_query=True)
-        except exceptions.CosmosHttpResponseError:
+            items = list(map(lambda row: {i: str(row[i]) if isinstance(row[i], ObjectId) else row[i] for i in row}, myCOLL.find()))
+        except:
             status = 404
-            raise
-        
+
         self.send_response(status)      
-        data = list(items)
-        jsonString = json.dumps(data, indent=2)
+        jsonString = json.dumps(items, indent=2)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
         self.wfile.write(bytes(jsonString, 'utf-8'))
@@ -103,37 +105,20 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             
     def do_publicar(self):
         
-        dbName = os.environ['COSMOSDB_DBNAME']
         dataSize = int(self.headers['Content-Length'])
         reqBody = self.rfile.read(dataSize)
         reqData = json.loads(reqBody.decode("utf-8"))           
         print("Data received: " + str(reqData))     
           
-        response_data = {}   
-        try:
-            database = client.create_database(dbName)
-            print("BASE DE DATOS CREADA! :D")
-        except exceptions.CosmosResourceExistsError:
-            database = client.get_database_client(dbName)
-            print("BASE DE DATOS YA EXISTE! :O")
-            
-        containerName = os.environ['COSMOSDB_CONTAINERNAME']   
+        response_data = {}             
+
         status = 202
         try:
-            container = database.create_container(id=containerName, partition_key=PartitionKey(path="/tweetID"))
-        except exceptions.CosmosResourceExistsError:
-            container = database.get_container_client(containerName)
-        except exceptions.CosmosHttpResponseError:
+            myCOLL.insert_one(reqData)
+        except:
             response_data = {"status": 404, "Mensaje": "Error al interactuar con CosmosDB! :("}
             status = 404
             raise
-        
-        if status != 404:
-            try:                         
-                container.upsert_item(reqData)          
-            except:
-                status = 404
-                response_data = {"status": 404, "Mensaje": "Error al interactuar con CosmosDB! :("}
         
         if status != 404:
             try:                         
