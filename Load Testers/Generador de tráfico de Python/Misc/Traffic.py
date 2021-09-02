@@ -15,12 +15,9 @@ class Traffic():
 
             # For Array
             for Item in Variables.dataArray:
-
-                # Convert Json Data 
-                bodyPost = json.dumps(Item)
-
+          
                 # Make Requests
-                response = requests.post(Variables.host + "/", data=bodyPost, timeout=0.1)
+                response = requests.post(Variables.host, data=Item, timeout=0.1)
 
                 # Add To Array
                 Variables.reportArray.append(response)

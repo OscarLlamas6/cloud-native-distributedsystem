@@ -35,8 +35,8 @@ def GUI():
     ClearConsole()
     
     # Menú 
-    print(colored("------------------------ Load Tester Locust --------------------\n", "blue"))
-    print(colored("------------------------------- Menu ---------------------------", "cyan"))
+    print(colored("------------------------ Load Tester Python --------------------", "blue"))
+    print(colored("------------------------------- Menu ---------------------------\n", "cyan"))
     print(colored("1.Read File", "magenta"))
     print(colored("2.Load Test", "magenta"))
     print(colored("3.Report Test", "magenta"))
