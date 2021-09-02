@@ -1,4 +1,5 @@
 # Imports
+from termcolor import colored
 from Misc import Variables
 import json
 import os
@@ -28,7 +29,7 @@ class JsonUtilities():
                     Variables.dataArray = json.loads(data.read())
 
                     # Show Message 
-                    print("\nData Size: " + str(len(Variables.dataArray)))
+                    print(colored("\nData Size: " + str(len(Variables.dataArray)), "magenta"))
 
                     # Pause
                     input()
@@ -36,7 +37,7 @@ class JsonUtilities():
             except Exception as ex:
 
                 # Show Execption
-                print("\nError Al Cargar Los Datos: " + ex)
+                print(colored("\nError Al Cargar Los Datos: ", "red") + ex)
 
                 # Pause
                 input()       
@@ -44,7 +45,7 @@ class JsonUtilities():
         else:
 
             # Show Message 
-            print("\nThe File Does Not Exists!")
+            print(colored("\nThe File Does Not Exists!", "red"))
             
             # Pause
             input()   
