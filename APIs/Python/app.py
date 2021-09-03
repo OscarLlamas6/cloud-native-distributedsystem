@@ -19,6 +19,7 @@ class JSONEncoder(json.JSONEncoder):
 # Setting env variables
 load_dotenv()
 PORT = int(os.environ['PYTHON_API_PORT'])
+HOST = os.environ['PYTHON_API_HOST']
 
 # Get these values from the Azure portal page for your cosmos db account
 cosmosUSER = os.environ['COSMOSDB_USER']
@@ -28,7 +29,7 @@ cosmosDB = os.environ['COSMOSDB_DBNAME']
 cosmosCOLLECTION = os.environ['COSMOSDB_COLLECTION']
  
 # This requires python 3.6 or above
-cosmosCONN = f'mongodb://{cosmosUSER}:{cosmosPASS}@{cosmosUSER}.{cosmosURL}'
+cosmosCONN = f'mongodb://{cosmosUSER}:{cosmosPASS}@{cosmosUSER}.{cosmosURL}@{cosmosUSER}@'
 cosmosClient = MongoClient(cosmosCONN)
 myDB = cosmosClient[cosmosDB]
 myCOLL = myDB[cosmosCOLLECTION]
@@ -162,7 +163,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
 
 # Setting and starting server
-myServer = HTTPServer(('localhost', PORT), MyRequestHandler)
+myServer = HTTPServer((HOST, PORT), MyRequestHandler)
 print("Server running at localhost: " + str(PORT))
 myServer.serve_forever()
 conexion.close()
