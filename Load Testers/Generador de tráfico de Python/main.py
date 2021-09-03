@@ -2,6 +2,7 @@
 from Misc.JsonUtilities import JsonUtilities
 from Misc import Variables
 from Misc.Traffic import Traffic
+from termcolor import colored
 import os
 
 # Json Utilities Instance
@@ -34,13 +35,13 @@ def GUI():
     ClearConsole()
     
     # Menú 
-    print("------------------------ Load Tester Locust --------------------\n")
-    print("------------------------------- Menu ---------------------------")
-    print("1.Read File")
-    print("2.Load Test")
-    print("3.Report Test")
-    print("4.Salir\n")
-    print("Select An Option: ", end="")
+    print(colored("------------------------ Load Tester Python --------------------", "blue"))
+    print(colored("------------------------------- Menu ---------------------------\n", "cyan"))
+    print(colored("1.Read File", "magenta"))
+    print(colored("2.Load Test", "magenta"))
+    print(colored("3.Report Test", "magenta"))
+    print(colored("4.Salir\n", "magenta"))
+    print(colored("Select An Option: ", "yellow"), end="")
 
     # Get Menu Option
     menuOption = input()  
@@ -49,7 +50,7 @@ def GUI():
     if menuOption == "1":
         
         # Get File Name
-        Variables.fileName = input("\nEnter The Path Of The File You Want To Upload: ")
+        Variables.fileName = input(colored("\nEnter The Path Of The File You Want To Upload: ", "green"))
 
         # Read File
         actualInstanceJson.ReadFile(Variables.fileName)
@@ -60,7 +61,7 @@ def GUI():
     elif menuOption == "2":
 
         # Obtain Host
-        Variables.host = input("\nSpecify The Host To Send The Data Traffic: ")
+        Variables.host = input(colored("\nSpecify The Host To Send The Data Traffic: ", "green"))
         
         # Send Traffic
         actualInstanceTraffic.sendTraffic()
@@ -71,7 +72,7 @@ def GUI():
     elif menuOption == "3":
 
         # Show Message
-        print("\n----------------------------- Reports Test --------------------------------\n")
+        print(colored("\n----------------------------- Reports Test --------------------------------\n", "blue"))
 
         # Report Test
         actualInstanceTraffic.reportTest()
@@ -84,7 +85,7 @@ def GUI():
 
     elif menuOption == "4":
 
-        print("\nLoad Tests Completed!")
+        print(colored("\nLoad Tests Completed!", "green"))
 
     else:
 

@@ -1,4 +1,5 @@
 # import 
+from termcolor import colored
 from Misc import Variables
 import requests
 import json
@@ -14,18 +15,15 @@ class Traffic():
 
             # For Array
             for Item in Variables.dataArray:
-
-                # Convert Json Data 
-                bodyPost = json.dumps(Item)
-
+          
                 # Make Requests
-                response = requests.post(Variables.host + "/", data=bodyPost, timeout=0.1)
+                response = requests.post(Variables.host, data=Item, timeout=0.1)
 
                 # Add To Array
                 Variables.reportArray.append(response)
  
             # Show Message 
-            print("\nLoad Test Carried Out Successfully")
+            print(colored("\nLoad Test Carried Out Successfully", "magenta"))
 
             # Pause 
             input()
@@ -33,7 +31,7 @@ class Traffic():
         else:
 
             # Show Message 
-            print("\nNo Data To Send")
+            print(colored("\nNo Data To Send", "magenta"))
 
             # Pause 
             input()             
@@ -60,7 +58,7 @@ class Traffic():
         error = 0
 
         # Headers
-        print("--------No.------- " + " -------Status-------")
+        print(colored("--------No.------- ", "blue") + colored(" -------Status-------", "blue"))
 
         # Generate Report
         for Item in Variables.reportArray:
@@ -76,7 +74,7 @@ class Traffic():
             if Item.status_code >= 200 and Item.status_code < 300:
 
                 # Status
-                print("Success " + "Status Code: " + str(Item.status_code))
+                print(colored("Success " + "Status Code: " + str(Item.status_code), "green"))
                 self.addSpaces(20, 21 + len(str(Item.status_code)))
 
                 # Incremente Counter
@@ -85,7 +83,7 @@ class Traffic():
             else:
 
                 # Status
-                print("Error " + "Status Code: " + str(Item.status_code))
+                print(colored("Error " + "Status Code: " + str(Item.status_code), "red"))
                 self.addSpaces(20, 19 + len(str(Item.status_code)))
 
                 # Increment Counter
@@ -98,5 +96,5 @@ class Traffic():
         print(" ")
 
         # Show Message 
-        print("Number Of Data Sent Successfully!: " + str(succes) + "\n")
-        print("Number Of Data With Error!: " + str(error) + "\n")
+        print(colored("Number Of Data Sent Successfully!: " + str(succes) + "\n", "green"))
+        print(colored("Number Of Data With Error!: " + str(error) + "\n", "red"))
