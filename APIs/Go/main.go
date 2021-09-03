@@ -166,6 +166,6 @@ func main() {
 	//router.HandleFunc("/tasks/{id}", getOneTask).Methods("GET")
 	//router.HandleFunc("/tasks/{id}", deleteTask).Methods("DELETE")
 	//router.HandleFunc("/tasks/{id}", updateTask).Methods("PUT")
-
+	fmt.Println("Golang server on port: 4000")
 	log.Fatal(http.ListenAndServe(":4000", router))
 }
