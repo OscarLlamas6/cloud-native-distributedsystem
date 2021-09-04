@@ -3,9 +3,12 @@ mod handlers;
 extern crate dotenv;
 
 use std::env;
+#[allow(unused_imports)]
 use actix_web::{web, App, HttpRequest, HttpServer, Responder, middleware::Logger};
 use mongodb::{options::ClientOptions, Client};
+#[allow(unused_imports)]
 use bson::{doc, Bson};
+#[allow(unused_imports)]
 use futures::stream::StreamExt;
 use std::sync::*;
 
