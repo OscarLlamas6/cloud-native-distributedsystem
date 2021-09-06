@@ -26,11 +26,12 @@ async fn main() -> std::io::Result<()> {
     // building address
 
     let port = env::var("RUST_API_PORT").unwrap();
+    let host = env::var("RUST_API_HOST").unwrap();
     let cosmos_url = env::var("COSMOSDB_URL").unwrap();
     let cosmos_user = env::var("COSMOSDB_USER").unwrap();
     let cosmos_pass = env::var("COSMOSDB_PASS").unwrap();
     let connection_url = format!("mongodb://{}:{}@{}.{}@{}@", cosmos_user, cosmos_pass, cosmos_user, cosmos_url, cosmos_user); 
-    let address = format!("127.0.0.1:{}", port);
+    let address = format!("{}:{}", host, port);
     println!("Rust server on port {} :D", port);
 
     env::set_var("RUST_LOG", "actix_web=debug");
