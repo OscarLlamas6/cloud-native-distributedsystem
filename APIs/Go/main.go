@@ -20,12 +20,12 @@ import (
 )
 
 type tweet struct {
-	Nombre    string `json:"Nombre"`
-	Comentario string `json:"Comentario"`
-	Fecha string `json:"Fecha"`
-	Hashtags string `json:"Hashtags"`
-	Upvotes int `json:"Upvotes"`
-	Downvotes int `json:"Downvotes"`
+	Nombre    string `json:"nombre"`
+	Comentario string `json:"comentario"`
+	Fecha string `json:"fecha"`
+	Hashtags []string `json:"hashtags"`
+	Upvotes int `json:"upvotes"`
+	Downvotes int `json:"downvotes"`
 }
 
 func conexionGoogleCloud()(conexion *sql.DB){
@@ -49,6 +49,16 @@ func conexionGoogleCloud()(conexion *sql.DB){
 }
 
 func createTweetGoogleCloud(newTweet tweet){
+
+	cadenaHashtags := "";
+
+	for i , v := range newTweet.Hashtags {
+		cadenaHashtags = cadenaHashtags +  v
+		if i != len(newTweet.Hashtags)-1{
+			cadenaHashtags = cadenaHashtags + ","
+		}
+	}
+
 	conexion :=  conexionGoogleCloud()
 	insertarRegistros, err := conexion.Prepare("INSERT INTO TWEET(nombre, comentario, fecha, hashtags, upvotes, downvotes) VALUES (?, ?, ?, ?, ?, ?)")
 
@@ -56,7 +66,7 @@ func createTweetGoogleCloud(newTweet tweet){
 		panic(err.Error())
 	}
 
-	insertarRegistros.Exec(newTweet.Nombre, newTweet.Comentario, newTweet.Fecha, newTweet.Hashtags, newTweet.Upvotes, newTweet.Downvotes);
+	insertarRegistros.Exec(newTweet.Nombre, newTweet.Comentario, newTweet.Fecha, cadenaHashtags, newTweet.Upvotes, newTweet.Downvotes);
 }
 
 func loadEnv(){
@@ -140,12 +150,15 @@ func crearTweet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Insert a Valid Client Data")
 	}
-
+	
 	json.Unmarshal(reqBody, &newTweet)
 
-	createTweetCosmos(newTweet)
-	createTweetGoogleCloud(newTweet)
 	
+	//fmt.Println(newTweet.Hashtags)
+	
+	
+	createTweetGoogleCloud(newTweet)
+	createTweetCosmos(newTweet)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
