@@ -28,6 +28,12 @@ type tweet struct {
 	Downvotes int `json:"downvotes"`
 }
 
+type mensaje struct {
+	Mensaje    string `json:"Mensaje"`
+	Status int `json:"Status"`
+}
+
+
 func conexionGoogleCloud()(conexion *sql.DB){
 
 	envs, err := godotenv.Read(".env")
@@ -69,37 +75,13 @@ func createTweetGoogleCloud(newTweet tweet){
 	insertarRegistros.Exec(newTweet.Nombre, newTweet.Comentario, newTweet.Fecha, cadenaHashtags, newTweet.Upvotes, newTweet.Downvotes);
 }
 
+
 func loadEnv(){
 	err:= godotenv.Load(".env")
 	if err != nil{
 		panic(err.Error())
 	}
 }
-
-/*func conexionCosmosSql(){
-
-	driver := "gocosmos"
-	dsn := "AccountEndpoint=https://98f82489-0ee0-4-231-b9ee.documents.azure.com/;AccountKey=DJf7JDRY4WnlUetsuYgb3lwJlWQEOuRkYEQFv8kFN0rdHQUDXjU5YwxGqAaAOAb2zyv6w3OZImT9nHIWykkYKQ=="
-	db, err := sql.Open(driver, dsn)
-	if err != nil {
-		panic(err)
-	}
-	
-
-	sql := `INSERT INTO SOPES1.TWEET (nombre, comentario, fecha, hashtags, upvotes, downvotes) VALUES("\"Santizo\"","\"Test de golang a cosmos\"","\"30/08/2021\"","\"hg1,hg2\"",50,60)`
-	result, err := db.Exec(sql,"mypk")
-	if err != nil {
-		panic(err)
-	}
-
-	numRows, err := result.RowsAffected()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Number of rows affected:", numRows)
-
-	defer db.Close()
-	}*/
 
 
 func conexionCosmos()*mongo.Client{
@@ -160,9 +142,14 @@ func crearTweet(w http.ResponseWriter, r *http.Request) {
 	createTweetGoogleCloud(newTweet)
 	createTweetCosmos(newTweet)
 
+	
+	var newMensaje mensaje;
+	newMensaje.Mensaje = "Nuevo elemento insertado correctamente desde Golang! :D";
+	newMensaje.Status = 202
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newTweet)
+	json.NewEncoder(w).Encode(newMensaje)
 }
 
 
@@ -175,10 +162,11 @@ func main() {
 
 	//router.HandleFunc("/", indexRoute)
 	//router.HandleFunc("/tasks", createTask).Methods("POST")
-	router.HandleFunc("/tweet", crearTweet).Methods("POST")
+	router.HandleFunc("/publicar", crearTweet).Methods("POST")
 	//router.HandleFunc("/tasks/{id}", getOneTask).Methods("GET")
 	//router.HandleFunc("/tasks/{id}", deleteTask).Methods("DELETE")
 	//router.HandleFunc("/tasks/{id}", updateTask).Methods("PUT")
 	fmt.Println("Golang server on port: 4000")
+
 	log.Fatal(http.ListenAndServe(":4000", router))
 }
