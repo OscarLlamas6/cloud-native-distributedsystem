@@ -1,0 +1,12 @@
+###
+POST http://34.125.59.108:4000/publicar
+Content-Type: application/json
+
+{
+    "nombre": "Robert",
+    "comentario": "Probando socket io",
+    "fecha": "31/08/2021",
+    "hashtags": ["ht1","ht2","ht3"],
+    "upvotes": 7,
+    "downvotes": 30
+}
