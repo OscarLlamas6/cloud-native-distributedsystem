@@ -32,7 +32,7 @@ use serde_json::json;
 #[derive(Serialize)]
 struct respuesta {
     status: u32,
-    mensaje: String
+    Mensaje: String
 }
 
 
@@ -203,7 +203,7 @@ async fn add_tweet(data: web::Data<Mutex<Client>>, new_tweet: web::Json<NewTweet
 
         return web::Json(respuesta {
             status: status,
-            mensaje: mensaje.to_string()
+            Mensaje: mensaje.to_string()
         });
 
 }
