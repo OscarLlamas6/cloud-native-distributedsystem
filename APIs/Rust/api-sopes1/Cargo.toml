@@ -24,5 +24,6 @@ futures = "0.3.5"
 mongodb = "1.0.0"
 actix-json-responder = "0.1.0"
 mysql = "*"
+openssl = { version = "0.10", features = ["vendored"] }
 
 
