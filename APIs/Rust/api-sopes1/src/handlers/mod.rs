@@ -32,7 +32,7 @@ use serde_json::json;
 #[derive(Serialize)]
 struct respuesta {
     status: u32,
-    mensaje: String
+    Mensaje: String
 }
 
 
