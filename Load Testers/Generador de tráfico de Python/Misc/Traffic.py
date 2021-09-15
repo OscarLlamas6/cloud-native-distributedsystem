@@ -1,8 +1,11 @@
 # import 
 from termcolor import colored
 from Misc import Variables
+from Misc import JsonUtilities
 import requests
 import json
+import time
+import random
 
 # Main Class 
 class Traffic():
@@ -10,17 +13,31 @@ class Traffic():
     # Send Traffic
     def sendTraffic(self):
 
+        # Clean Array 
+        Variables.reportArray = []
+
         # Check Array Length
         if len(Variables.dataArray) > 0:
 
             # For Array
             for Item in Variables.dataArray:
-          
-                # Make Requests
-                response = requests.post(Variables.host, data=Item, timeout=0.1)
+       
+                # Header 
+                headers = {
 
+                    'Content-Type': 'application/json',
+                    'host': JsonUtilities.JsonUtilities.host()
+
+                }
+                
+                # Make Requests
+                response = requests.post(Variables.host, headers=headers, data=json.dumps(Item)) 
+             
                 # Add To Array
                 Variables.reportArray.append(response)
+
+                # Sleep 
+                time.sleep(random.randint(0, 1) / 10)
  
             # Show Message 
             print(colored("\nLoad Test Carried Out Successfully", "magenta"))
@@ -58,7 +75,7 @@ class Traffic():
         error = 0
 
         # Headers
-        print(colored("--------No.------- ", "blue") + colored(" -------Status-------", "blue"))
+        print(colored("--------No.------- ", "blue") + colored(" -------Status-------", "blue") + colored("     -------Server-------", "blue"))
 
         # Generate Report
         for Item in Variables.reportArray:
@@ -74,8 +91,11 @@ class Traffic():
             if Item.status_code >= 200 and Item.status_code < 300:
 
                 # Status
-                print(colored("Success " + "Status Code: " + str(Item.status_code), "green"))
-                self.addSpaces(20, 21 + len(str(Item.status_code)))
+                print(colored("Success " + "Status Code: " + str(Item.status_code), "green"), end=" ")
+                self.addSpaces(20, 25 + len(str(Item.status_code)))
+                
+                # Server
+                print(colored(json.loads(Item.text)["Mensaje"], "green"))
 
                 # Incremente Counter
                 succes += 1
@@ -85,12 +105,15 @@ class Traffic():
                 # Status
                 print(colored("Error " + "Status Code: " + str(Item.status_code), "red"))
                 self.addSpaces(20, 19 + len(str(Item.status_code)))
+          
+                # Server
+                # print(colored(json.loads(Item.text)["Mensaje"], "red"))
 
                 # Increment Counter
                 error += 1
 
             # Increment Counter
-            counter += 1
+            counter += 1            
         
         # Show Space 
         print(" ")
