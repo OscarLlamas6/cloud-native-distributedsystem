@@ -14,12 +14,3 @@ all:
 # Run Clean
 clean:
 	make -C $(KDIR) M=$(PWD) clean
-
-# Target Test
-test:
-	
-	sudo dmesg -C
-	sudo insmod rammodule.ko
-	cat /proc/rammodule
-	sudo rmmod rammodule
-	sudo dmesg
