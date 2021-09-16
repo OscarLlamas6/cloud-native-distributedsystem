@@ -29,24 +29,47 @@ int writeFile(struct seq_file* file, void *v) {
      
     // Declaratiosn 
     long porcent;
-    long numberProcess
-    
-    // Sys Information Struct
-    struct sysinfo information;
-    
-    // Obtain Sys Informartion
-    si_meminfo(&information);
+    long numberCpu;
+    long numberProcess;
+    struct task_struct *task_list_child;
+    struct list_head *list;
+    struct task_struct *task;
 
-    // Value
-    numberProcess = information.procs;    
-    porcent = num_online_cpus();    
+    // Each Process
+    for_each_process(task) {
+
+        // Obtain Porcent
+        numberCpu += task->cpu;
+
+        // Each Child Process
+        list_for_each(list, &task->children) {
+
+            // Obtain Child Processs
+            task_list_child = list_entry(list, struct task_struct, sibling);
+
+            // Obtain Porcent
+            numberCpu += task_list_child->cpu;
+            
+            // Count Process
+            numberProcess++;
+
+        }
+        
+        // Count Process
+        numberProcess++;
+
+    }  
+
+    // Operation 
+    porcent = numberCpu * 100 / numberProcess;
 
     // Write In File Values 
     seq_printf(file, "\n\nMódulo Kernel Lista De Procesos - Grupo 18");
     seq_printf(file, "\n");
     seq_printf(file, "\n");
-    seq_printf(file, "  Número De Procesos Ejecutandose %8ld \n", numberProcess);   
-    seq_printf(file, "  CPU Online %8ld \n", porcent);   
+    seq_printf(file, "  Porcentaje De CPU Utilizado: %8ld Porciento\n", porcent);  
+    seq_printf(file, "  Número De CPU De Todos Los Procesos: %8ld \n", numberCpu);
+    seq_printf(file, "  Número De Procesos Ejecutandose: %8ld \n\n\n", numberProcess);        
   
     // Return File 
     return 0;
