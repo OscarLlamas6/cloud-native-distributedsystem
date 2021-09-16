@@ -3,13 +3,17 @@
 # File To Build As A Loadable Module Kernel
 obj-m += rammodule.o
 
+# Const 
+KDIR := /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+
 # Run Targets
 all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	make -C $(KDIR) M=$(PWD) modules
 
 # Run Clean
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	make -C $(KDIR) M=$(PWD) clean
 
 # Target Test
 test:

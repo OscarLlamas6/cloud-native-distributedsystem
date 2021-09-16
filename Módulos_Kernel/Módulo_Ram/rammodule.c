@@ -25,20 +25,36 @@ MODULE_DESCRIPTION("Proyecto No.1 - Sistemas Operativos 1");
 MODULE_VERSION("1.0.0");
 
 // Write File, Params File Pointer, V Pointer
-int writeFile(struct seq_file* file, void *auxiliary) {
+int writeFile(struct seq_file* file, void *v) {
      
+    // Declaratiosn 
+    long porcent;
+    long freeRam;
+    long useRam;
+    long totalRam;
+    
     // Sys Information Struct
     struct sysinfo information;
     
     // Obtain Sys Informartion
     si_meminfo(&information);
 
-    // Write In File Values 
-    seq_printf(file, "Memoria Ram Total:  %8lu MB\n", information.totalram * 4 / 1024);
-    seq_printf(file, "Memoria Ram En Uso: %8lu MB\n", (information.totalram - information.freeram) * 4 / 1024);   
-    seq_printf(file, "Memoria Ram Libre:  %8lu MB\n", information.freeram * 4 / 1024);
-    seq_printf(file, "Pocentaje De Memoria Ram En Uso: %8lu", (((information.totalram - information.freeram) * 100%) / information.totalram) * 100), "Porciento");  
+    // Porcent And Values
+    freeRam = (information.freeram * information.mem_unit) / (1000 * 1000);
+    totalRam = (information.totalram * information.mem_unit) / (1000 * 1000);
+    useRam = (totalRam - freeRam); 
+             
+    porcent = (useRam * 100 / totalRam); 
 
+    // Write In File Values 
+    seq_printf(file, "\n\nMódulo Kernel RAM - Grupo 18");
+    seq_printf(file, "\n");
+    seq_printf(file, "\n");
+    seq_printf(file, "  Memoria Ram Total:  %8ld MB\n", totalRam);
+    seq_printf(file, "  Memoria Ram En Uso: %8ld MB\n", useRam);   
+    seq_printf(file, "  Memoria Ram Libre:  %8ld MB\n", freeRam);
+    seq_printf(file, "  Porcentaje De Memoria Ram Utilizada: %8ld Porciento\n\n\n", porcent);  
+  
     // Return File 
     return 0;
 
@@ -53,10 +69,10 @@ static int atOpen(struct inode* inode, struct file* file) {
 }
 
 // File Operations
-static struct file_operations fileOperations = {
+static struct proc_ops fileOperations = {
 
-    .open = atOpen,
-    .read = seq_read
+    .proc_open = atOpen,
+    .proc_read = seq_read
 
 };
 
