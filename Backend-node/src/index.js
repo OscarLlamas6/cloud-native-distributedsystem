@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 const mysql = require('mysql');
 const db = require('./database')
 const MySQLEvents = require('@rodrigogs/mysql-events');
@@ -5,8 +7,6 @@ import express from 'express'
 var cors = require('cors')
 import { Server as WebSocketServer, Socket } from 'socket.io'
 import http from 'http'
-import dotenv from 'dotenv';
-dotenv.config();
 const app = express()
 app.use(cors())
 
@@ -139,21 +139,6 @@ const program = async () => {
 program()
     .then(() => console.log('Waiting for database events...'))
     .catch(console.error);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 server.listen(3001)
 
