@@ -28,6 +28,7 @@ use mysql::prelude::*;
 #[allow(unused_imports)]
 use serde_json::json;
 
+#[allow(non_snake_case)]
 #[allow(non_camel_case_types)]
 #[derive(Serialize)]
 struct respuesta {
@@ -116,7 +117,7 @@ async fn get_cosmos(data: web::Data<Mutex<Client>>) -> impl Responder {
 async fn add_tweet(data: web::Data<Mutex<Client>>, new_tweet: web::Json<NewTweet>) -> impl Responder {
     
     let mut status = 202;
-    let mut mensaje = "Nuevo elemento insertado correctamente! :D";
+    let mut mensaje = "Nuevo elemento insertado correctamente desde Rust! :D";
 
     let tweets_collection = data
         .lock()
