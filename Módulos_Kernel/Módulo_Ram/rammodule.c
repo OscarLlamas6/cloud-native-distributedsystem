@@ -47,13 +47,10 @@ int writeFile(struct seq_file* file, void *v) {
     porcent = (useRam * 100 / totalRam); 
 
     // Write In File Values 
-    seq_printf(file, "\n\nMódulo Kernel RAM - Grupo 18");
-    seq_printf(file, "\n");
-    seq_printf(file, "\n");
-    seq_printf(file, "  Memoria Ram Total:  %8ld MB\n", totalRam);
-    seq_printf(file, "  Memoria Ram En Uso: %8ld MB\n", useRam);   
-    seq_printf(file, "  Memoria Ram Libre:  %8ld MB\n", freeRam);
-    seq_printf(file, "  Porcentaje De Memoria Ram Utilizada: %8ld Porciento\n\n\n", porcent);  
+    seq_printf(file, "%8ld,", totalRam);
+    seq_printf(file, "%8ld,", useRam);   
+    seq_printf(file, "%8ld,", freeRam);
+    seq_printf(file, "%8ld", porcent);  
   
     // Return File 
     return 0;
