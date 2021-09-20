@@ -1,6 +1,9 @@
 // Const And Variables
-const http = require('http')
-const url = require('url')
+const morgan = require('morgan');
+const express = require('express');
+const axios = require('axios');
+
+var application = express();
 
 // Cliente Prometeus
 const client = require('prom-client');
@@ -8,43 +11,55 @@ const client = require('prom-client');
 // Add Metrics
 const metrics = new client.Registry();
 
+// Use App
+application.use(morgan('dev'));
+
 // Label To Metrics
 metrics.setDefaultLabels({
-
   app: 'Módulo De Monitoreo'
+});
+
+// Ruta Inicial
+application.get('/', (req, res)=>{ 
+
+    res.status(200).send({ mensaje: "Servicio Monitoreo Prometheus - SOPES1 :D ", });
 
 });
 
-// Default Metrics
-client.collectDefaultMetrics({ metrics });
+application.get('/metricas', async (req, res)=>{ 
 
-// Create Server
-const application = http.createServer(async (req, res) => {
-
-  // Obtain endpoint
-  const endpoint = url.parse(req.url).pathname;
-
-  // Check EndPoint
-  if (endpoint === '/metricas') {
-
-    // Obtain Type Metrics
-    res.setHeader('Content-Type', metrics.contentType);
-
-    // Send Metrics
-    res.end(metrics.metrics());
+    // Data 
+    let data = "";  
   
-  } else if(endpoint === '/') {
+    // Make Request 
+    await axios.get('http://34.125.26.7:3065/leer')
+    .then(response => {
 
-    // Send Saludo
-    res.send({"mensaje": "Servicio Monitoreo En Grafana Y Prometheus - SOPES1 :D "})
+      data = response.data;
+    
+    })
+    .catch(error => {
 
-  }
+      console.log(error);
+    
+    });  
+  
+    // Create Metrics
+    const httpRAMModule = new client.Gauge({ name: 'http_request_usedram', help: 'Ram Utilazada Por La Maquina' });
+    httpRAMModule.set(80);
+
+    // Add Metrics
+    metrics.registerMetric(httpRAMModule);
+
+    // Send Response
+    res.setHeader('Content-Type', metrics.contentType);
+    res.end(await metrics.metrics());
 
 });
 
-// Start Server
 application.listen(9099, () => {
 
-  console.log(`Service is running at 9099! :D`);  
+    // Server Up
+    console.log(`Service Is Running At ${9099} :D`);
 
-});
+}); 
