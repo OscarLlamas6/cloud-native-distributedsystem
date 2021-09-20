@@ -44,6 +44,12 @@ class JsonUtilities():
             # Return Value
             return self.dataArray.pop()
 
+    # Get Size Array
+    def getSizeArray(self):
+
+        # Return 
+        return len(self.dataArray)        
+
     # Get Host 
     def getHost(self):
 
@@ -84,6 +90,12 @@ class LocustLoadTester(HttpUser):
         # Read File
         self.actualInstance.ReadFile()
 
+        # start Time 
+        self.startHour = time.time()
+
+        # Size Array
+        self.sizeArray = self.actualInstance.getSizeArray()
+
     # Make Request And Task Number
     @task()   
     def SendTraffic(self):
@@ -113,7 +125,29 @@ class LocustLoadTester(HttpUser):
 
         else:
 
-             # Show Message 
+            # Final Time 
+            final = time.time()
+
+            # Header 
+            headers = {
+
+                'Content-Type': 'application/json',
+                'host': self.actualInstance.getHost()
+
+            }            
+
+            # Send Post 
+            postBody = {
+
+                "guardados": self.sizeArray,
+                "tiempoDeCarga": round(final - self.startHour, 2)
+
+            }
+           
+            # Make Request
+            response = self.client.post('/notificar', headers=headers, data=json.dumps(postBody))
+            
+            # Show Message 
             print("\nNo Data To Send")
 
             # Pause 
