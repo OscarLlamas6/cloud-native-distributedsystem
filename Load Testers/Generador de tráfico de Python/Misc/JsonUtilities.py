@@ -3,6 +3,7 @@ from termcolor import colored
 from Misc import Variables
 import json
 import os
+import random
 
 # Main Class 
 class JsonUtilities():
@@ -49,3 +50,28 @@ class JsonUtilities():
             
             # Pause
             input()   
+
+    # Select Host 
+    def host():
+
+        # Select Host 
+        randNumber = random.randint(1, 3)
+        global host
+
+        if randNumber == 1:
+
+            # Host All 
+            host = "" 
+            
+        elif randNumber == 2:
+    
+            # Host Cloud Run 
+            host = "apipyhton-wpyonbtsua-wn.a.run.app"
+
+        elif randNumber == 3:
+
+            # Host Cloud Function
+            host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+
+        # Return Host
+        return host

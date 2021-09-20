@@ -3,16 +3,16 @@ package main
 
 // Imports
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
-	"net/url"
 	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
-	"strings"
 )
 
 // Map For Function
@@ -20,19 +20,19 @@ var clear map[string]func()
 
 // Type
 type jsonModel struct {
-	Nombre     string
-	Comentario string
-	Fecha      string
-	Hashtags   []string
-	Upvotes    int
-	Downvotes  int
+	Nombre     string   `json:"nombre"`
+	Comentario string   `json:"comentario"`
+	Fecha      string   `json:"fecha"`
+	Hashtags   []string `json:"hashtags"`
+	Upvotes    int      `json:"upvotes"`
+	Downvotes  int      `json:"downvotes"`
 }
 
 // Array Data
 var dataArray []jsonModel
 
 // Array Report
-var reportArray []int
+var reportArray []*http.Response
 
 // Init
 func init() {
@@ -57,6 +57,38 @@ func init() {
 		cmd.Run()
 
 	}
+
+}
+
+// Get Host Name
+func getHost() string {
+
+	// Select Host
+	min := 1
+	max := 3
+	randNumber := min + rand.Intn(max-min+1)
+	host := ""
+
+	// Check Type
+	if randNumber == 1 {
+
+		// Host All
+		host = ""
+
+	} else if randNumber == 2 {
+
+		// Host Cloud Run
+		host = "apipyhton-wpyonbtsua-wn.a.run.app"
+
+	} else if randNumber == 3 {
+
+		// Host Cloud Function
+		host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+
+	}
+
+	// Return
+	return host
 
 }
 
@@ -173,45 +205,45 @@ func ReadFile(filePath string) {
 // Send Traffic
 func SendTraffic(host string) {
 
+	// Clean Array
+	reportArray = nil
+
 	// Check Array Length
 	if len(dataArray) > 0 {
 
 		// For Item
 		for _, Item := range dataArray {
 
-			// Votes
-			upvotes := strconv.Itoa(Item.Upvotes)
-			downvotes := strconv.Itoa(Item.Downvotes)
-
-			// Array To String
-			hashTags := strings.Join(Item.Hashtags, ",")
-
 			// Make Json
-			postBody := url.Values{
-				"nombre":     {Item.Nombre},
-				"comentario": {Item.Comentario},
-				"fecha":      {Item.Fecha},
-				"hashtags":   {hashTags},
-				"upvotes":    {upvotes},
-				"downvotes":  {downvotes},
+			jsonBody := jsonModel{
+
+				Nombre:     Item.Nombre,
+				Comentario: Item.Comentario,
+				Fecha:      Item.Fecha,
+				Hashtags:   Item.Hashtags,
+				Upvotes:    Item.Upvotes,
+				Downvotes:  Item.Downvotes,
 			}
+
+			// Convert Json Body
+			postBody := new(bytes.Buffer)
+			json.NewEncoder(postBody).Encode(jsonBody)
+
+			// Create Cliente
+			client := &http.Client{}
+
+			// Made Request
+			req, _ := http.NewRequest("POST", host, postBody)
+
+			// Add Headers
+			req.Header.Add("Content-Type", "application/json")
+			req.Host = getHost()
 
 			// Make Request
-			resp, err := http.PostForm(host, postBody)
-
-			// Error
-			if err != nil {
-
-				// Show Message
-				fmt.Println("")
-				fmt.Println(getColor("red"), "Request Error")
-				var input string
-				fmt.Scanln(&input)
-
-			}
+			resp, _ := client.Do(req)
 
 			// Add To Response Array
-			reportArray = append(reportArray, resp.StatusCode)
+			reportArray = append(reportArray, resp)
 
 		}
 
@@ -256,7 +288,7 @@ func ReportTest() {
 
 	// Show Message
 	fmt.Println("")
-	fmt.Println(string(getColor("blue")), "--------No.------- -------Status-------")
+	fmt.Println(string(getColor("blue")), "--------No.------- -------Status-------     -------Server-------")
 
 	// For
 	for _, Item := range reportArray {
@@ -267,11 +299,20 @@ func ReportTest() {
 		AddSpaces(20, len(strconv.Itoa(counter))+1)
 
 		// Check Status
-		if Item >= 200 && Item < 300 {
+		if Item.StatusCode >= 200 && Item.StatusCode < 300 {
 
 			// Status
-			fmt.Println(string(getColor("green")), "Succes Status Code: "+strconv.Itoa(Item))
-			AddSpaces(20, 21-len(strconv.Itoa(Item)))
+			fmt.Print(string(getColor("green")), "Succes Status Code: "+strconv.Itoa(Item.StatusCode))
+			AddSpaces(20, 21-len(strconv.Itoa(Item.StatusCode)))
+
+			// String Json
+			var res map[string]interface{}
+
+			// Decoder Json
+			json.NewDecoder(Item.Body).Decode(&res)
+
+			// Server Message
+			fmt.Println(string(getColor("green")), res["Mensaje"])
 
 			// Increment
 			success++
@@ -279,8 +320,8 @@ func ReportTest() {
 		} else {
 
 			// Status
-			fmt.Println(string(getColor("red")), "Error Status Code: "+strconv.Itoa(Item))
-			AddSpaces(20, 19-len(strconv.Itoa(Item)))
+			fmt.Println(string(getColor("red")), "Error Status Code: "+strconv.Itoa(Item.StatusCode))
+			AddSpaces(20, 19-len(strconv.Itoa(Item.StatusCode)))
 
 			// Increment
 			error++

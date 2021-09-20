@@ -1,6 +1,8 @@
 # Imports
 from locust import HttpUser, task, between
 import json
+import time
+import random
 
 # Main Class 
 class JsonUtilities():
@@ -18,9 +20,8 @@ class JsonUtilities():
         try:
 
             # Open File
-            with open("../Traffic Files/Traffic1.json", "r") as data:
+            with open("./Traffic_Files/Traffic1.json", "r") as data:
 
-           
                 # Get Data Array 
                 self.dataArray = json.loads(data.read())
 
@@ -43,15 +44,37 @@ class JsonUtilities():
             # Return Value
             return self.dataArray.pop()
 
+    # Get Host 
+    def getHost(self):
+
+        # Select Host 
+        randNumber = random.randint(1, 3)
+        global host
+
+        if randNumber == 1:
+
+            # Host All 
+            host = "" 
+            
+        elif randNumber == 2:
+    
+            # Host Cloud Run 
+            host = "apipyhton-wpyonbtsua-wn.a.run.app"
+
+        elif randNumber == 3:
+
+            # Host Cloud Function
+            host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+
+        # Return Host
+        return host
+
 # Main class
 class LocustLoadTester(HttpUser):
     
     # Wait Time
-    wait_time = between(0.1, 0.9)
+    wait_time = between(0.1, 1)
 
-    # Host
-    host = "http://localhost:5000"
-    
     # Initial Configuration
     def on_start(self):
 
@@ -71,10 +94,22 @@ class LocustLoadTester(HttpUser):
         # Check Array Lenght
         if arrayItem != None:
 
-            bodyPost = json.dumps(arrayItem)
+            # Header 
+            headers = {
+
+                'Content-Type': 'application/json',
+                'host': self.actualInstance.getHost()
+
+            }
 
             # Make Requests
-            self.client.post('/', json=bodyPost)
+            response = self.client.post('/publicar', json=arrayItem, headers=headers)
+
+            # Check Status 
+            if response.status_code >= 200 and response.status_code < 300:
+            
+                # Show Message
+                print(json.loads(response.text)["Mensaje"] + " Status Code: " +  str(response.status_code))
 
         else:
 
