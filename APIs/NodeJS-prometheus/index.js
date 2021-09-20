@@ -1,43 +1,50 @@
 // Const And Variables
-require('dotenv').config();
-const morgan = require('morgan');
-const express = require('express');
-const port = process.env.API_MONITOREO_PORT;
-var application = express();
+const http = require('http')
+const url = require('url')
+
 // Cliente Prometeus
 const client = require('prom-client');
+
 // Add Metrics
 const metrics = new client.Registry();
 
-// Use App
-application.use(morgan('dev'));
-
 // Label To Metrics
 metrics.setDefaultLabels({
+
   app: 'Módulo De Monitoreo'
+
 });
 
 // Default Metrics
 client.collectDefaultMetrics({ metrics });
 
-// Ruta Inicial
-application.get('/', (req, res)=>{ 
+// Create Server
+const application = http.createServer(async (req, res) => {
 
-    res.status(200).send({ mensaje: "Servicio Monitoreo Prometheus - SOPES1 :D ", });
+  // Obtain endpoint
+  const endpoint = url.parse(req.url).pathname;
 
-});
+  // Check EndPoint
+  if (endpoint === '/metricas') {
 
-application.get('/metricas', (req, res)=>{ 
-
-    // Send Response
+    // Obtain Type Metrics
     res.setHeader('Content-Type', metrics.contentType);
+
+    // Send Metrics
     res.end(metrics.metrics());
+  
+  } else if(endpoint === '/') {
+
+    // Send Saludo
+    res.send({"mensaje": "Servicio Monitoreo En Grafana Y Prometheus - SOPES1 :D "})
+
+  }
 
 });
 
-application.listen(port, () => {
+// Start Server
+application.listen(9099, () => {
 
-    // Server Up
-    console.log(`Service Is Running At ${port} :D`);
+  console.log(`Service is running at 9099! :D`);  
 
 });
