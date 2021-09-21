@@ -16,8 +16,27 @@ application.use(morgan('dev'));
 
 // Label To Metrics
 metrics.setDefaultLabels({
-  app: 'Módulo De Monitoreo'
+  app: 'modulo-de-monitoreo'
 });
+
+// Add Default Metrics
+client.collectDefaultMetrics({ metrics });
+
+// Create Metrics
+const httpTotalRam = new client.Gauge({ name: 'http_request_totalram', help: 'Ram Total' });
+const httpUsedRam = new client.Gauge({ name: 'http_request_usedram', help: 'Ram Utilizada' });
+const httpLibreRam = new client.Gauge({ name: 'http_request_freeram', help: 'Ram Libre' });
+const httpPorcentUsed = new client.Gauge({ name: 'http_request_porcentusedram', help: 'Porcentaje De Ram Utilizada' });
+const httpPorcentCPU = new client.Gauge({ name: 'http_request_porcentcpu', help: 'Porcentaje De CPU Utilizado' });
+const httpProcessNumber = new client.Gauge({ name: 'http_request_processnumber', help: 'Numero De Procesos Activos' });
+
+// Add Metrics
+metrics.registerMetric(httpTotalRam);
+metrics.registerMetric(httpUsedRam);
+metrics.registerMetric(httpLibreRam);
+metrics.registerMetric(httpPorcentUsed);
+metrics.registerMetric(httpPorcentCPU);
+metrics.registerMetric(httpProcessNumber);
 
 // Ruta Inicial
 application.get('/', (req, res)=>{ 
@@ -26,7 +45,7 @@ application.get('/', (req, res)=>{
 
 });
 
-application.get('/metricas', async (req, res)=>{ 
+application.get('/metrics', async (req, res)=>{ 
 
     // Data 
     let data = "";  
@@ -46,29 +65,15 @@ application.get('/metricas', async (req, res)=>{
     
     const ramArray = data["RAM"].split(",");
     const cpuArray = data["CPU"].split(",");
-    
-    // Create Metrics
-    const httpTotalRam = new client.Gauge({ name: 'http_request_totalram', help: 'Ram Total' });
+
+    // Set Values 
     httpTotalRam.set(parseInt(ramArray[0].trim()));
-    const httpUsedRam = new client.Gauge({ name: 'http_request_usedram', help: 'Ram Utilizada' });
     httpUsedRam.set(parseInt(ramArray[1].trim()));
-    const httpLibreRam = new client.Gauge({ name: 'http_request_freeram', help: 'Ram Libre' });
     httpLibreRam.set(parseInt(ramArray[2].trim()));
-    const httpPorcentUsed = new client.Gauge({ name: 'http_request_porcentusedram', help: 'Porcentaje De Ram Utilizada' });
     httpPorcentUsed.set(parseInt(ramArray[3].trim()));
-    const httpPorcentCPU = new client.Gauge({ name: 'http_request_porcentcpu', help: 'Porcentaje De CPU Utilizado' });
     httpPorcentCPU.set(parseInt(cpuArray[0].trim()));
-    const httpProcessNumber = new client.Gauge({ name: 'http_request_processnumber', help: 'Numero De Procesos Activos' });
     httpProcessNumber.set(parseInt(cpuArray[2].trim()));
-
-    // Add Metrics
-    metrics.registerMetric(httpTotalRam);
-    metrics.registerMetric(httpUsedRam);
-    metrics.registerMetric(httpLibreRam);
-    metrics.registerMetric(httpPorcentUsed);
-    metrics.registerMetric(httpPorcentCPU);
-    metrics.registerMetric(httpProcessNumber);
-
+  
     // Send Response
     res.setHeader('Content-Type', metrics.contentType);
     res.end(await metrics.metrics());
