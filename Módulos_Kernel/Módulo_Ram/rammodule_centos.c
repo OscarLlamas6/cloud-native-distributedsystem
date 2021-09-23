@@ -40,8 +40,8 @@ int writeFile(struct seq_file* file, void *v) {
     si_meminfo(&information);
 
     // Porcent And Values
-    freeRam = (information.freeram * information.mem_unit) / (1000 * 1000);
-    totalRam = (information.totalram * information.mem_unit) / (1000 * 1000);
+    freeRam = (information.freeram * information.mem_unit) / (1024 * 1024);
+    totalRam = (information.totalram * information.mem_unit) / (1024 * 1024);
     useRam = (totalRam - freeRam); 
              
     porcent = (useRam * 100 / totalRam); 
