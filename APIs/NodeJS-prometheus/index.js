@@ -96,7 +96,7 @@ application.get('/metrics', async (req, res)=>{
     });  
 
     // Make Request Centos
-    await axios.get('http://10.182.0.7:3065/leer')
+    await axios.get('http://34.125.225.28:3065/leer')
     .then(response => {
 
       data_centos = response.data;
@@ -109,7 +109,7 @@ application.get('/metrics', async (req, res)=>{
     }); 
 
     // Make Request Debian
-    await axios.get('http://10.182.0.6:3065/leer')
+    await axios.get('http://34.125.225.28:3065/leer')
     .then(response => {
 
       data_debian = response.data;
