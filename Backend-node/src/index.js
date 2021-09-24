@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+const { topHashtags } = require('./mongoDatabase')
 const mysql = require('mysql');
 const db = require('./database')
 const MySQLEvents = require('@rodrigogs/mysql-events');
@@ -7,11 +8,14 @@ import express from 'express'
 var cors = require('cors')
 import { Server as WebSocketServer, Socket } from 'socket.io'
 import http from 'http'
+
 const app = express()
 app.use(cors())
 
 const server = http.createServer(app)
 const io = new WebSocketServer(server, { cors: { origin: '*' } })
+
+topHashtags()
 
 io.on('connection', (socket) => {
 
@@ -19,10 +23,25 @@ io.on('connection', (socket) => {
         console.log('nueva conexion', socket.id)
     })
 
+
+    socket.on('cambio', (data) => {
+        console.log('cambio de base', data)
+    })
+
+    GCPemits()
+
+
+
+})
+
+
+//Google cloud emits
+const GCPemits = () => {
+
     db.query(
         'SELECT * FROM TWEET',
         function (err, results) {
-            io.emit('insersionInicial', results)
+            io.emit('insercion', results)
         }
     );
 
@@ -32,6 +51,7 @@ io.on('connection', (socket) => {
             io.emit('totalNoticias', result)
         }
     );
+
 
     db.query(
         `SELECT count(*) as count FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag
@@ -50,6 +70,7 @@ io.on('connection', (socket) => {
         }
     );
 
+
     db.query(
         `SELECT fecha, sum(upvotes) AS upvotes, sum(downvotes) AS downvotes
         FROM (SELECT DATE_FORMAT(fecha, '%e/%m/%Y') AS fecha, upvotes, downvotes
@@ -60,13 +81,6 @@ io.on('connection', (socket) => {
         }
     );
 
-
-    db.query(
-        `select * from TWEET order by idTweet desc LIMIT 5`,
-        function (err, results) {
-            io.emit('recentPosts', results)
-        }
-    );
 
 
     db.query(
@@ -82,19 +96,22 @@ io.on('connection', (socket) => {
     );
 
 
-
-
     db.query(
-        `SELECT SUM(upvotes) AS TotalUpvotes 
-        FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
-        FROM (SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET
-        ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags`,
+        `select * from TWEET order by idTweet desc LIMIT 5`,
         function (err, results) {
-            io.emit('totalUpvotesv2', results)
+            io.emit('recentPosts', results)
         }
     );
 
-})
+}
+
+//Cosmosdb mongo emits
+const CDBMemits = () => {
+
+
+}
+
+
 
 
 const program = async () => {
@@ -120,75 +137,11 @@ const program = async () => {
         onEvent: (event) => { // You will receive the events here
             console.log(event);
 
-            db.query(
-                'SELECT * FROM TWEET',
-                function (err, results) {
-                    io.emit('insersion', results)
-                }
-            );
-
-            db.query(
-                'SELECT count(*) as count FROM TWEET',
-                function (err, result) {
-                    io.emit('totalNoticias', result)
-                }
-            );
-
-
-            db.query(
-                `SELECT count(*) as count FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag
-                FROM (SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET
-                ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1
-                group by hashtag) AS ListaHashtags`,
-                function (err, result) {
-                    io.emit('totalHashtags', result)
-                }
-            );
-
-            db.query(
-                `SELECT SUM(upvotes) AS count from TWEET`,
-                function (err, result) {
-                    io.emit('totalUpvotes', result)
-                }
-            );
-
-
-            db.query(
-                `SELECT fecha, sum(upvotes) AS upvotes, sum(downvotes) AS downvotes
-                FROM (SELECT DATE_FORMAT(fecha, '%e/%m/%Y') AS fecha, upvotes, downvotes
-                FROM (SELECT upvotes, downvotes, STR_TO_DATE(fecha, '%e/%m/%Y') AS fecha FROM TWEET) AS FechaConvertida) 
-                AS FechasFormateadas GROUP BY  fecha`,
-                function (err, results) {
-                    io.emit('reporteDiario', results)
-                }
-            );
-
-
-
-            db.query(
-                `SELECT SUM(upvotes) AS TotalUpvotes, hashtag
-                FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
-                FROM (SELECT 1 n UNION ALL SELECT 2
-                UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET
-                ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags
-                GROUP BY hashtag ORDER BY TotalUpvotes desc LIMIT 5`,
-                function (err, results) {
-                    io.emit('topHashtags', results)
-                }
-            );
-
-
-            db.query(
-                `select * from TWEET order by idTweet desc LIMIT 5`,
-                function (err, results) {
-                    io.emit('recentPosts', results)
-                }
-            );
-
-
+            GCPemits()
 
         },
     });
+
 
     instance.addTrigger({
         name: 'TEST',
@@ -219,3 +172,18 @@ program()
 server.listen(process.env.NODE_API_PORT || 3001)
 
 console.log('Server on port', 3001)
+
+
+/*
+
+    db.query(
+        `SELECT SUM(upvotes) AS TotalUpvotes 
+        FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
+        FROM (SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET
+        ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags`,
+        function (err, results) {
+            io.emit('totalUpvotesv2', results)
+        }
+    );
+
+*/
