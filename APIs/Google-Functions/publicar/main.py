@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 import mysql.connector
-from flask import escape, jsonify
+from flask import jsonify
 
 def publicar_tweet(request):
 
