@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 async function collection() {
     try {
-        let connection = await (await MongoClient.connect(URI)).db("SOPES1").collection("TWEET")
+        let connection = (await MongoClient.connect(URI)).db("SOPES1").collection("TWEET")
         console.log('Mongo db is connected')
         return connection
     } catch (error) {
@@ -14,27 +14,27 @@ async function collection() {
 }
 
 
-const allTweets = async () => {
+export const allTweets = async () => {
     const tweets = await collection()
     const allTweets = await tweets.find({}).toArray()
-    console.log(allTweets)
+    //console.log(allTweets)
     return allTweets
 }
 
 //allTweets()
 
 
-const countTweets = async () => {
+export const countTweets = async () => {
     const tweets = await collection()
     const count = await tweets.count({})
-    console.log(count)
+    //console.log(count)
     return count
 }
 
 //countTweets()
 
 
-const countHashTags = async () => {
+export const countHashTags = async () => {
     let arra = []
     const tweets = await collection()
     const allTweets = await tweets.find({}).toArray()
@@ -47,30 +47,30 @@ const countHashTags = async () => {
         }
     }
     let arrb = new Set(arra)
-    console.log(arrb.size)
+    //console.log(arrb.size)
     return arrb.size
 }
 
 //countHashTags()
 
 
-const countUpvotes = async () => {
+export const countUpvotes = async () => {
     let count = 0
     const tweets = await collection()
     const allTweets = await tweets.find({}).toArray()
     for (const element of allTweets) {
         if (element.upvotes !== null && element.upvotes !== undefined && !isNaN(element.upvotes)) {
-            console.log(parseInt(element.upvotes))
+            //console.log(parseInt(element.upvotes))
             count += parseInt(element.upvotes)
         }
     }
-    console.log('Conteo de votos', count)
+    //console.log('Conteo de votos', count)
     return count
 }
 
 //countUpvotes()
 
-const upvotesVSdownvotes = async () => {
+export const upvotesVSdownvotes = async () => {
     let up_array = {}
     let down_array = {}
     const tweets = await collection()
@@ -87,7 +87,7 @@ const upvotesVSdownvotes = async () => {
     }
 
     let arreglo = [up_array, down_array]
-    console.log(arreglo)
+    //console.log(arreglo)
     return arreglo
 }
 
@@ -114,7 +114,7 @@ export const topHashtags = async () => {
         Object.entries(arr).sort(([, a], [, b]) => b - a)
     );
 
-    console.log(sortable);
+    //console.log(sortable);
     return sortable
 }
 
