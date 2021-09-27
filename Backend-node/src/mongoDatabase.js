@@ -1,6 +1,5 @@
 const URI = process.env.COSMOSDB_CONNECTION
 
-
 var MongoClient = require('mongodb').MongoClient;
 
 async function collection() {
@@ -13,7 +12,6 @@ async function collection() {
     }
 }
 
-
 export const allTweets = async () => {
     const tweets = await collection()
     const allTweets = await tweets.find({}).toArray()
@@ -23,7 +21,6 @@ export const allTweets = async () => {
 
 //allTweets()
 
-
 export const countTweets = async () => {
     const tweets = await collection()
     const count = await tweets.count({})
@@ -32,8 +29,6 @@ export const countTweets = async () => {
 }
 
 //countTweets()
-
-
 export const countHashTags = async () => {
     let arra = []
     const tweets = await collection()
@@ -52,7 +47,6 @@ export const countHashTags = async () => {
 }
 
 //countHashTags()
-
 
 export const countUpvotes = async () => {
     let count = 0
@@ -93,7 +87,6 @@ export const upvotesVSdownvotes = async () => {
 
 //upvotesVSdownvotes()
 
-
 export const topHashtags = async () => {
     let arr = {}
     const tweets = await collection()
@@ -113,31 +106,17 @@ export const topHashtags = async () => {
     const sortable = Object.fromEntries(
         Object.entries(arr).sort(([, a], [, b]) => b - a)
     );
-
     //console.log(sortable);
     return sortable
 }
 
 //topHashtags()
 
-
-
-
-
-
-
-
-
-
 /*
-
 tweets.find({}).toArray(function (err, result) {
         if (err) throw err;
         console.log(result);
     });
-
-
-
 
 MongoClient.connect(URI, function (err, db) {
     if (err) throw err;
@@ -150,4 +129,3 @@ MongoClient.connect(URI, function (err, db) {
 });
 
 */
-

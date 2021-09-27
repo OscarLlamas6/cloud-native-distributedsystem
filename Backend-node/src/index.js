@@ -15,15 +15,23 @@ app.use(cors())
 const server = http.createServer(app)
 const io = new WebSocketServer(server, { cors: { origin: '*' } })
 
-let val = false;
+/* -------------------- IMPORTS PUBSUB -------------------- */
+let credentials_path = process.env.PUBSUB_KEY_PATH || '';
+process.env['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path;
+const subscriptionName = process.env.SUB_NAME || '';;
+const {PubSub} = require('@google-cloud/pubsub');
+const pubSubClient = new PubSub();
+const myMessages = [];
+let messageCount = 0;
+/* -------------------------------------------------------- */
 
+let val = false;
 
 io.on('connection', (socket) => {
 
     socket.on('conectado', () => {
         console.log('nueva conexion', socket.id)
     })
-
 
     socket.on('cambio', (data) => {
         console.log('cambio de base', data)
@@ -56,7 +64,6 @@ const CDBMemits = async () => {
 
     io.emit('val', val)
 }
-
 
 const GCPemits = async () => {
 
@@ -91,8 +98,6 @@ const GCPemits = async () => {
     io.emit('val', val)
 }
 
-
-
 const program = async () => {
     const connection = mysql.createConnection({
         host: process.env.CLOUDSQL_HOST,
@@ -126,38 +131,54 @@ const program = async () => {
     instance.on(MySQLEvents.EVENTS.ZONGJI_ERROR, console.error);
 };
 
+const pubsub = async () => {
+    
+    console.log("Listening for messages :)")
+    const subscription = pubSubClient.subscription(subscriptionName);
+    const messageHandler = message => {
+        let msj = message;
+        myMessages.push(msj)
+        console.log(`Received message: id ${msj.id}`);
+        console.log(`Data: ${msj.data}`);
+        console.log(`Attributes: ${JSON.stringify(msj.attributes, null, 2)}`);
+        messageCount += 1;
+        message.ack();
+    };
+    console.log(`${messageCount} message(s) received.`);
+    subscription.on('message', messageHandler);
+
+    process.on('SIGINT', function() {
+        subscription.removeListener('message', messageHandler);
+        console.log(`${messageCount} message(s) received.`);
+        process.exit();
+    });
+
+    io.emit('notificaciones', myMessages);
+}
+
 program()
     .then(() => console.log('Waiting for database events...'))
     .catch(console.error);
 
-
-
-
-
+pubsub()
+    .then(() => console.log('Waiting for Pub/Sub notifications...'))
+    .catch(console.error);
 
 server.listen(process.env.NODE_API_PORT || 3001)
-
 console.log('Server on port', 3001)
 
-
 /*
+db.query(
+    `SELECT SUM(upvotes) AS TotalUpvotes
+    FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
+    FROM (SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET
+    ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags`,
+    function (err, results) {
+        io.emit('totalUpvotesv2', results)
+    }
+);
 
-    db.query(
-        `SELECT SUM(upvotes) AS TotalUpvotes
-        FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
-        FROM (SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET
-        ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags`,
-        function (err, results) {
-            io.emit('totalUpvotesv2', results)
-        }
-    );
-
-
-
-
-
-
-    //Google cloud emits
+//Google cloud emits
 const GCPemits2 = () => {
 
     db.query(
@@ -173,7 +194,6 @@ const GCPemits2 = () => {
             io.emit('totalNoticias', result)
         }
     );
-
 
     db.query(
         `SELECT count(*) as count FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag
@@ -192,7 +212,6 @@ const GCPemits2 = () => {
         }
     );
 
-
     db.query(
         `SELECT fecha, sum(upvotes) AS upvotes, sum(downvotes) AS downvotes
         FROM (SELECT DATE_FORMAT(fecha, '%e/%m/%Y') AS fecha, upvotes, downvotes
@@ -202,8 +221,6 @@ const GCPemits2 = () => {
             io.emit('reporteDiario', results)
         }
     );
-
-
 
     db.query(
         `SELECT SUM(upvotes) AS TotalUpvotes, hashtag
@@ -217,7 +234,6 @@ const GCPemits2 = () => {
         }
     );
 
-
     db.query(
         `select * from TWEET order by idTweet desc LIMIT 5`,
         function (err, results) {
@@ -226,12 +242,6 @@ const GCPemits2 = () => {
     );
 
 }
-
-
-
-
-
-
 
     instance.addTrigger({
         name: 'TEST',

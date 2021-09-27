@@ -17,6 +17,7 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^2.18.1",
     "@rodrigogs/mysql-events": "^0.6.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
