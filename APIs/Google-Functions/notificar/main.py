@@ -4,20 +4,15 @@ import os
 from flask import jsonify
 from google.cloud import pubsub_v1
 
-
 def notificar(request):
 
     # Setting env variables
     load_dotenv()
-    
-
     publisher = pubsub_v1.PublisherClient()
     topic_path = os.environ['TOPIC_NAME']
-   
     request_json = request.get_json(silent=True)
     response_data = {}             
-
-    
+   
     try:
         data = 'Enviando una notificacion desde pubsub SOPES :D!'
         data = data.encode('utf-8')
