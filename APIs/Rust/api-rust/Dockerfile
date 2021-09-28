@@ -13,4 +13,4 @@ RUN cargo build --release
 EXPOSE 3040
 
 # When `docker run` is executed, launch the binary!
-ENTRYPOINT ["./target/release/api-sopes1"]
+ENTRYPOINT ["./target/release/api-rust"]

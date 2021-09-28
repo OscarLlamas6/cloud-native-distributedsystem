@@ -1,1150 +1,1700 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": "-- Grafana --",
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "gnetId": null,
-    "graphTooltip": 0,
-    "id": 2,
-    "links": [],
-    "panels": [
+  "annotations": {
+    "list": [
       {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 14,
-        "panels": [
-          {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "dark-red",
-                      "value": null
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 2000
-                    },
-                    {
-                      "color": "green",
-                      "value": 4000
-                    }
-                  ]
-                },
-                "unit": "decmbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 3,
-              "w": 4,
-              "x": 0,
-              "y": 1
-            },
-            "id": 15,
-            "interval": "15s",
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "horizontal",
-              "reduceOptions": {
-                "calcs": [
-                  "last"
-                ],
-                "fields": "/^Total RAM$/",
-                "limit": 1,
-                "values": false
-              },
-              "textMode": "value_and_name"
-            },
-            "pluginVersion": "7.1.5",
-            "targets": [
-              {
-                "expr": "http_request_totalram_centoos",
-                "interval": "",
-                "intervalFactor": 2,
-                "legendFormat": "Total RAM",
-                "refId": "A"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "",
-            "transparent": true,
-            "type": "stat"
-          },
-          {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "dark-red",
-                      "value": null
-                    },
-                    {
-                      "color": "dark-red",
-                      "value": 0
-                    },
-                    {
-                      "color": "semi-dark-orange",
-                      "value": 2000
-                    },
-                    {
-                      "color": "green",
-                      "value": 4000
-                    }
-                  ]
-                },
-                "unit": "decmbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 3,
-              "w": 4,
-              "x": 4,
-              "y": 1
-            },
-            "id": 16,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "horizontal",
-              "reduceOptions": {
-                "calcs": [
-                  "last"
-                ],
-                "fields": "/^Free RAM$/",
-                "limit": 1,
-                "values": false
-              },
-              "textMode": "value_and_name"
-            },
-            "pluginVersion": "7.1.5",
-            "targets": [
-              {
-                "expr": "http_request_freeram_centoos",
-                "format": "time_series",
-                "interval": "",
-                "intervalFactor": 2,
-                "legendFormat": "Free RAM",
-                "refId": "A"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "",
-            "transparent": true,
-            "type": "stat"
-          },
-          {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "semi-dark-orange",
-                      "value": 2000
-                    },
-                    {
-                      "color": "dark-red",
-                      "value": 4000
-                    }
-                  ]
-                },
-                "unit": "decmbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 3,
-              "w": 4,
-              "x": 8,
-              "y": 1
-            },
-            "id": 17,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "horizontal",
-              "reduceOptions": {
-                "calcs": [
-                  "last"
-                ],
-                "fields": "/^Used RAM$/",
-                "limit": 1,
-                "values": false
-              },
-              "textMode": "value_and_name"
-            },
-            "pluginVersion": "7.1.5",
-            "targets": [
-              {
-                "expr": "http_request_usedram_centoos",
-                "format": "time_series",
-                "interval": "",
-                "intervalFactor": 2,
-                "legendFormat": "Used RAM",
-                "refId": "A"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "",
-            "transparent": true,
-            "type": "stat"
-          },
-          {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "semi-dark-orange",
-                      "value": 50
-                    },
-                    {
-                      "color": "dark-red",
-                      "value": 100
-                    }
-                  ]
-                },
-                "unit": "none"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 3,
-              "w": 4,
-              "x": 12,
-              "y": 1
-            },
-            "id": 18,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "horizontal",
-              "reduceOptions": {
-                "calcs": [
-                  "last"
-                ],
-                "fields": "/^Used RAM %$/",
-                "limit": 1,
-                "values": false
-              },
-              "textMode": "value_and_name"
-            },
-            "pluginVersion": "7.1.5",
-            "targets": [
-              {
-                "expr": "http_request_porcentusedram_centoos",
-                "format": "time_series",
-                "interval": "",
-                "intervalFactor": 2,
-                "legendFormat": "Used RAM %",
-                "refId": "A"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "",
-            "transparent": true,
-            "type": "stat"
-          },
-          {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "none"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 3,
-              "w": 4,
-              "x": 16,
-              "y": 1
-            },
-            "id": 19,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "horizontal",
-              "reduceOptions": {
-                "calcs": [
-                  "last"
-                ],
-                "fields": "/^Numero De Procesos$/",
-                "limit": 1,
-                "values": false
-              },
-              "textMode": "value_and_name"
-            },
-            "pluginVersion": "7.1.5",
-            "targets": [
-              {
-                "expr": "http_request_processnumber_centoos",
-                "format": "time_series",
-                "interval": "",
-                "intervalFactor": 2,
-                "legendFormat": "Numero De Procesos",
-                "refId": "A"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "",
-            "transparent": true,
-            "type": "stat"
-          },
-          {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "semi-dark-orange",
-                      "value": 50
-                    },
-                    {
-                      "color": "dark-red",
-                      "value": 100
-                    }
-                  ]
-                },
-                "unit": "none"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 3,
-              "w": 4,
-              "x": 20,
-              "y": 1
-            },
-            "id": 11,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "horizontal",
-              "reduceOptions": {
-                "calcs": [
-                  "last"
-                ],
-                "fields": "/^Used CPU %$/",
-                "limit": 1,
-                "values": false
-              },
-              "textMode": "value_and_name"
-            },
-            "pluginVersion": "7.1.5",
-            "targets": [
-              {
-                "expr": "http_request_porcentcpu_centoos",
-                "format": "time_series",
-                "interval": "",
-                "intervalFactor": 2,
-                "legendFormat": "Used CPU %",
-                "refId": "A"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "",
-            "transparent": true,
-            "type": "stat"
-          },
-          {
-            "aliasColors": {},
-            "bars": false,
-            "dashLength": 10,
-            "dashes": false,
-            "datasource": "Prometheus",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "align": null
-                },
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "red",
-                      "value": 80
-                    }
-                  ]
-                },
-                "unit": "decmbytes"
-              },
-              "overrides": []
-            },
-            "fill": 1,
-            "fillGradient": 0,
-            "gridPos": {
-              "h": 9,
-              "w": 24,
-              "x": 0,
-              "y": 4
-            },
-            "hiddenSeries": false,
-            "id": 9,
-            "legend": {
-              "avg": false,
-              "current": true,
-              "max": false,
-              "min": false,
-              "show": true,
-              "total": false,
-              "values": true
-            },
-            "lines": true,
-            "linewidth": 1,
-            "nullPointMode": "null",
-            "percentage": false,
-            "pluginVersion": "7.1.5",
-            "pointradius": 2,
-            "points": false,
-            "renderer": "flot",
-            "seriesOverrides": [],
-            "spaceLength": 10,
-            "stack": false,
-            "steppedLine": false,
-            "targets": [
-              {
-                "expr": "http_request_freeram_centoos",
-                "format": "time_series",
-                "interval": "",
-                "legendFormat": "Free RAM",
-                "refId": "B"
-              },
-              {
-                "expr": "http_request_usedram_centoos",
-                "format": "time_series",
-                "interval": "",
-                "legendFormat": "Used RAM",
-                "refId": "C"
-              }
-            ],
-            "thresholds": [],
-            "timeFrom": null,
-            "timeRegions": [],
-            "timeShift": null,
-            "title": "",
-            "tooltip": {
-              "shared": true,
-              "sort": 0,
-              "value_type": "individual"
-            },
-            "type": "graph",
-            "xaxis": {
-              "buckets": null,
-              "mode": "time",
-              "name": null,
-              "show": true,
-              "values": []
-            },
-            "yaxes": [
-              {
-                "$$hashKey": "object:788",
-                "format": "decmbytes",
-                "label": "Size",
-                "logBase": 1,
-                "max": null,
-                "min": null,
-                "show": true
-              },
-              {
-                "$$hashKey": "object:789",
-                "format": "decmbytes",
-                "label": "",
-                "logBase": 1,
-                "max": null,
-                "min": null,
-                "show": true
-              }
-            ],
-            "yaxis": {
-              "align": false,
-              "alignLevel": null
-            }
-          }
-        ],
-        "title": "Centos",
-        "type": "row"
-      },
-      {
-        "collapsed": false,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 1
-        },
-        "id": 2,
-        "panels": [],
-        "title": "Ubuntu",
-        "type": "row"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "dark-red",
-                  "value": null
-                },
-                {
-                  "color": "#EAB839",
-                  "value": 2000
-                },
-                {
-                  "color": "green",
-                  "value": 4000
-                }
-              ]
-            },
-            "unit": "decmbytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 0,
-          "y": 2
-        },
-        "id": 4,
-        "interval": "15s",
-        "options": {
-          "colorMode": "background",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^Total RAM$/",
-            "limit": 1,
-            "values": false
-          },
-          "textMode": "value_and_name"
-        },
-        "pluginVersion": "7.1.5",
-        "targets": [
-          {
-            "expr": "http_request_totalram",
-            "interval": "",
-            "intervalFactor": 2,
-            "legendFormat": "Total RAM",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "stat"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "dark-red",
-                  "value": null
-                },
-                {
-                  "color": "dark-red",
-                  "value": 0
-                },
-                {
-                  "color": "semi-dark-orange",
-                  "value": 2000
-                },
-                {
-                  "color": "green",
-                  "value": 4000
-                }
-              ]
-            },
-            "unit": "decmbytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 4,
-          "y": 2
-        },
-        "id": 5,
-        "options": {
-          "colorMode": "background",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^Free RAM$/",
-            "limit": 1,
-            "values": false
-          },
-          "textMode": "value_and_name"
-        },
-        "pluginVersion": "7.1.5",
-        "targets": [
-          {
-            "expr": "http_request_freeram",
-            "format": "time_series",
-            "interval": "",
-            "intervalFactor": 2,
-            "legendFormat": "Free RAM",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "stat"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "semi-dark-orange",
-                  "value": 2000
-                },
-                {
-                  "color": "dark-red",
-                  "value": 4000
-                }
-              ]
-            },
-            "unit": "decmbytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 8,
-          "y": 2
-        },
-        "id": 6,
-        "options": {
-          "colorMode": "background",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^Used RAM$/",
-            "limit": 1,
-            "values": false
-          },
-          "textMode": "value_and_name"
-        },
-        "pluginVersion": "7.1.5",
-        "targets": [
-          {
-            "expr": "http_request_usedram",
-            "format": "time_series",
-            "interval": "",
-            "intervalFactor": 2,
-            "legendFormat": "Used RAM",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "stat"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "semi-dark-orange",
-                  "value": 50
-                },
-                {
-                  "color": "dark-red",
-                  "value": 100
-                }
-              ]
-            },
-            "unit": "none"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 12,
-          "y": 2
-        },
-        "id": 7,
-        "options": {
-          "colorMode": "background",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^Used RAM %$/",
-            "limit": 1,
-            "values": false
-          },
-          "textMode": "value_and_name"
-        },
-        "pluginVersion": "7.1.5",
-        "targets": [
-          {
-            "expr": "http_request_porcentusedram",
-            "format": "time_series",
-            "interval": "",
-            "intervalFactor": 2,
-            "legendFormat": "Used RAM %",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "stat"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "blue",
-                  "value": null
-                }
-              ]
-            },
-            "unit": "none"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 16,
-          "y": 2
-        },
-        "id": 12,
-        "options": {
-          "colorMode": "background",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^Numero De Procesos$/",
-            "limit": 1,
-            "values": false
-          },
-          "textMode": "value_and_name"
-        },
-        "pluginVersion": "7.1.5",
-        "targets": [
-          {
-            "expr": "http_request_processnumber",
-            "format": "time_series",
-            "interval": "",
-            "intervalFactor": 2,
-            "legendFormat": "Numero De Procesos",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "stat"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "semi-dark-orange",
-                  "value": 50
-                },
-                {
-                  "color": "dark-red",
-                  "value": 100
-                }
-              ]
-            },
-            "unit": "none"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 20,
-          "y": 2
-        },
-        "id": 20,
-        "options": {
-          "colorMode": "background",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^Used CPU %$/",
-            "limit": 1,
-            "values": false
-          },
-          "textMode": "value_and_name"
-        },
-        "pluginVersion": "7.1.5",
-        "targets": [
-          {
-            "expr": "http_request_porcentcpu",
-            "format": "time_series",
-            "interval": "",
-            "intervalFactor": 2,
-            "legendFormat": "Used CPU %",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "stat"
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "decmbytes"
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 9,
-          "w": 24,
-          "x": 0,
-          "y": 5
-        },
-        "hiddenSeries": false,
-        "id": 21,
-        "legend": {
-          "avg": false,
-          "current": true,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": true
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "percentage": false,
-        "pluginVersion": "7.1.5",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "expr": "http_request_freeram",
-            "format": "time_series",
-            "interval": "",
-            "legendFormat": "Free RAM",
-            "refId": "B"
-          },
-          {
-            "expr": "http_request_usedram",
-            "format": "time_series",
-            "interval": "",
-            "legendFormat": "Used RAM",
-            "refId": "C"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "$$hashKey": "object:788",
-            "format": "decmbytes",
-            "label": "Size",
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "$$hashKey": "object:789",
-            "format": "decmbytes",
-            "label": "",
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-    ],
-    "refresh": "5s",
-    "schemaVersion": 26,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 23,
+      "panels": [],
+      "title": "Debian",
+      "type": "row"
     },
-    "time": {
-      "from": "now-15m",
-      "to": "now"
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 2000
+              },
+              {
+                "color": "green",
+                "value": 4000
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 24,
+      "interval": "15s",
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Total RAM$/",
+          "limit": 1,
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "7.1.5",
+      "targets": [
+        {
+          "expr": "http_request_totalram_debian",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Total RAM",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "stat"
     },
-    "timepicker": {
-      "refresh_intervals": [
-        "5s",
-        "10s",
-        "30s",
-        "1m",
-        "5m",
-        "15m",
-        "30m",
-        "1h",
-        "2h",
-        "1d"
-      ]
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "dark-red",
+                "value": 0
+              },
+              {
+                "color": "semi-dark-orange",
+                "value": 2000
+              },
+              {
+                "color": "green",
+                "value": 4000
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Free RAM$/",
+          "limit": 1,
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "7.1.5",
+      "targets": [
+        {
+          "expr": "http_request_freeram_debian",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Free RAM",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "stat"
     },
-    "timezone": "",
-    "title": "sopes1-dashboard",
-    "uid": "yD0by7H7k",
-    "version": 7
-  }
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "semi-dark-orange",
+                "value": 2000
+              },
+              {
+                "color": "dark-red",
+                "value": 4000
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Used RAM$/",
+          "limit": 1,
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "7.1.5",
+      "targets": [
+        {
+          "expr": "http_request_usedram_debian",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Used RAM",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "semi-dark-orange",
+                "value": 50
+              },
+              {
+                "color": "dark-red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Used RAM %$/",
+          "limit": 1,
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "7.1.5",
+      "targets": [
+        {
+          "expr": "http_request_porcentusedram_debian",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Used RAM %",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "id": 19,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Numero De Procesos$/",
+          "limit": 1,
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "7.1.5",
+      "targets": [
+        {
+          "expr": "http_request_processnumber_debian",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Numero De Procesos",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "semi-dark-orange",
+                "value": 50
+              },
+              {
+                "color": "dark-red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Used CPU %$/",
+          "limit": 1,
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "7.1.5",
+      "targets": [
+        {
+          "expr": "http_request_porcentcpu_debian",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Used CPU %",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "percentage": false,
+      "pluginVersion": "7.1.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "http_request_freeram_debian",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Free RAM",
+          "refId": "B"
+        },
+        {
+          "expr": "http_request_usedram_debian",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Used RAM",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:788",
+          "format": "decmbytes",
+          "label": "Size",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:789",
+          "format": "decmbytes",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 14,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 2000
+                  },
+                  {
+                    "color": "green",
+                    "value": 4000
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 0,
+            "y": 2
+          },
+          "id": 15,
+          "interval": "15s",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Total RAM$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_totalram_centoos",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Total RAM",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 2000
+                  },
+                  {
+                    "color": "green",
+                    "value": 4000
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 4,
+            "y": 2
+          },
+          "id": 16,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Free RAM$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_freeram_centoos",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Free RAM",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 2000
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 4000
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 8,
+            "y": 2
+          },
+          "id": 17,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Used RAM$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_usedram_centoos",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used RAM",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 50
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 100
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 12,
+            "y": 2
+          },
+          "id": 18,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Used RAM %$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_porcentusedram_centoos",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used RAM %",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 16,
+            "y": 2
+          },
+          "id": 28,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Numero De Procesos$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_processnumber_centoos",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Numero De Procesos",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 50
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 100
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 2
+          },
+          "id": 29,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Used CPU %$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_porcentcpu_centoos",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used CPU %",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "hiddenSeries": false,
+          "id": 30,
+          "legend": {
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pluginVersion": "7.1.5",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "http_request_freeram_centoos",
+              "format": "time_series",
+              "interval": "",
+              "legendFormat": "Free RAM",
+              "refId": "B"
+            },
+            {
+              "expr": "http_request_usedram_centoos",
+              "format": "time_series",
+              "interval": "",
+              "legendFormat": "Used RAM",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:788",
+              "format": "decmbytes",
+              "label": "Size",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:789",
+              "format": "decmbytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Centos",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 2,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 2000
+                  },
+                  {
+                    "color": "green",
+                    "value": 4000
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 0,
+            "y": 3
+          },
+          "id": 4,
+          "interval": "15s",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Total RAM$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_totalram",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Total RAM",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 2000
+                  },
+                  {
+                    "color": "green",
+                    "value": 4000
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 4,
+            "y": 3
+          },
+          "id": 5,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Free RAM$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_freeram",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Free RAM",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 2000
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 4000
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 8,
+            "y": 3
+          },
+          "id": 6,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Used RAM$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_usedram",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used RAM",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 50
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 100
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 12,
+            "y": 3
+          },
+          "id": 7,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Used RAM %$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_porcentusedram",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used RAM %",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 16,
+            "y": 3
+          },
+          "id": 12,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Numero De Procesos$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_processnumber",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Numero De Procesos",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 50
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 100
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 3
+          },
+          "id": 20,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "/^Used CPU %$/",
+              "limit": 1,
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "7.1.5",
+          "targets": [
+            {
+              "expr": "http_request_porcentcpu",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used CPU %",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "decmbytes"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 6
+          },
+          "hiddenSeries": false,
+          "id": 21,
+          "legend": {
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pluginVersion": "7.1.5",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "http_request_freeram",
+              "format": "time_series",
+              "interval": "",
+              "legendFormat": "Free RAM",
+              "refId": "B"
+            },
+            {
+              "expr": "http_request_usedram",
+              "format": "time_series",
+              "interval": "",
+              "legendFormat": "Used RAM",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:788",
+              "format": "decmbytes",
+              "label": "Size",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:789",
+              "format": "decmbytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Ubuntu",
+      "type": "row"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "sopes1-dashboard",
+  "uid": "yD0by7H7k",
+  "version": 10
+}
