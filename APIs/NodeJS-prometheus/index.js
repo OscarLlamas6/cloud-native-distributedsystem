@@ -109,9 +109,10 @@ application.get('/metrics', async (req, res)=>{
     }); 
 
     // Make Request Debian
-    await axios.get('http://34.125.225.28:3065/leer')
+    await axios.get('http://34.125.59.108:3065/leer')
     .then(response => {
 
+      console.log(data_debian);
       data_debian = response.data;
     
     })
@@ -151,7 +152,7 @@ application.get('/metrics', async (req, res)=>{
     httpLibreRam_debian.set(parseInt(ramArrayDebian[2].trim()));
     httpPorcentUsed_debian.set(parseInt(ramArrayDebian[3].trim()));
     httpPorcentCPU_debian.set(parseInt(cpuArrayDebian[0].trim()));
-    httpProcessNumber_debian.set(parseInt(cpuArrayDebian[2].trim()));
+    httpProcessNumber_debian.set(parseInt(cpuArrayDebian[1].trim()));
 
   
     // Send Response
