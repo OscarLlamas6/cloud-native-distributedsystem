@@ -61,15 +61,12 @@ int writeFile(struct seq_file* file, void *v) {
     }  
 
     // Operation 
-    porcent = numberCpu * 100 / numberProcess;
+    porcent = numberCpu / 2 * 100 / numberProcess;
 
     // Write In File Values 
-    seq_printf(file, "\n\nMódulo Kernel Lista De Procesos - Grupo 18");
-    seq_printf(file, "\n");
-    seq_printf(file, "\n");
-    seq_printf(file, "  Porcentaje De CPU Utilizado: %8ld Porciento\n", porcent);  
-    seq_printf(file, "  Número De CPU De Todos Los Procesos: %8ld \n", numberCpu);
-    seq_printf(file, "  Número De Procesos Ejecutandose: %8ld \n\n\n", numberProcess);        
+    seq_printf(file, "%8ld,", porcent);  
+    seq_printf(file, "%8ld,", numberCpu);
+    seq_printf(file, "%8ld", numberProcess);        
   
     // Return File 
     return 0;

@@ -19,6 +19,9 @@ class Traffic():
         # Check Array Length
         if len(Variables.dataArray) > 0:
 
+            # Initial Time
+            start = time.time()
+            
             # For Array
             for Item in Variables.dataArray:
        
@@ -31,7 +34,7 @@ class Traffic():
                 }
                 
                 # Make Requests
-                response = requests.post(Variables.host, headers=headers, data=json.dumps(Item)) 
+                response = requests.post(Variables.host + "/publicar", headers=headers, data=json.dumps(Item)) 
              
                 # Add To Array
                 Variables.reportArray.append(response)
@@ -39,6 +42,28 @@ class Traffic():
                 # Sleep 
                 time.sleep(random.randint(0, 1) / 10)
  
+            # Final Time 
+            final = time.time()
+
+            # Header 
+            headers = {
+
+                'Content-Type': 'application/json',
+                'host': JsonUtilities.JsonUtilities.host()
+
+            }            
+
+            # Send Post 
+            postBody = {
+
+                "guardados": len(Variables.dataArray),
+                "tiempoDeCarga": round(final - start, 2)
+
+            }
+
+            # Make Request
+            response = requests.post(Variables.host + "/notificar", headers=headers, data=json.dumps(postBody))
+           
             # Show Message 
             print(colored("\nLoad Test Carried Out Successfully", "magenta"))
 

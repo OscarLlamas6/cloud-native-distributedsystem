@@ -1,7 +1,7 @@
 # Make File 
 
 # File To Build As A Loadable Module Kernel
-obj-m += processmodule.o
+obj-m += processmodule_debian.o
 
 # Const 
 KDIR := /lib/modules/$(shell uname -r)/build

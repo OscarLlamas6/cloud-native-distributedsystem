@@ -13,6 +13,7 @@ import (
 	"os/exec"
 	"runtime"
 	"strconv"
+	"time"
 )
 
 // Map For Function
@@ -26,6 +27,12 @@ type jsonModel struct {
 	Hashtags   []string `json:"hashtags"`
 	Upvotes    int      `json:"upvotes"`
 	Downvotes  int      `json:"downvotes"`
+}
+
+// Pub Sub
+type pubSubModel struct {
+	Guardados     int `json:"guardados"`
+	Tiempodecarga int `json:"tiempoDeCarga"`
 }
 
 // Array Data
@@ -211,6 +218,9 @@ func SendTraffic(host string) {
 	// Check Array Length
 	if len(dataArray) > 0 {
 
+		// Start Time
+		start := time.Now()
+
 		// For Item
 		for _, Item := range dataArray {
 
@@ -233,7 +243,7 @@ func SendTraffic(host string) {
 			client := &http.Client{}
 
 			// Made Request
-			req, _ := http.NewRequest("POST", host, postBody)
+			req, _ := http.NewRequest("POST", host+"/publicar", postBody)
 
 			// Add Headers
 			req.Header.Add("Content-Type", "application/json")
@@ -246,6 +256,34 @@ func SendTraffic(host string) {
 			reportArray = append(reportArray, resp)
 
 		}
+
+		// Final Time
+		actual := time.Now()
+		final := actual.Sub(start)
+
+		// Make Json
+		jsonBody := pubSubModel{
+			Guardados:     len(dataArray),
+			Tiempodecarga: int(final/time.Millisecond) / 1000,
+		}
+
+		// Convert Json Body
+		postBody := new(bytes.Buffer)
+		json.NewEncoder(postBody).Encode(jsonBody)
+
+		// Create Cliente
+		client := &http.Client{}
+
+		// Made Request
+		req, _ := http.NewRequest("POST", host+"/notificar", postBody)
+
+		// Add Headers
+		req.Header.Add("Content-Type", "application/json")
+		req.Host = getHost()
+
+		// Make Request
+		resp, _ := client.Do(req)
+		_ = resp
 
 		// Show Message
 		fmt.Println("")

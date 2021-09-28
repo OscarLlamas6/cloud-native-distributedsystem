@@ -5,8 +5,35 @@ Content-Type: application/json
 {
     "nombre": "Robert",
     "comentario": "Probando socket io",
+    "fecha": "28/09/2021",
+    "hashtags": ["docker","kunernetes"],
+    "upvotes": 40000,
+    "downvotes": 10000
+}
+
+###
+POST http://34.125.59.108:4001/publicar
+Content-Type: application/json
+
+{
+    "nombre": "Robert",
+    "comentario": "Probando socket io",
     "fecha": "31/08/2021",
     "hashtags": ["ht1","ht2","ht3"],
     "upvotes": 7,
+    "downvotes": 3000
+}
+
+
+###
+POST http://34.125.59.108:3040/publicar
+Content-Type: application/json
+
+{
+    "nombre": "Robert",
+    "comentario": "Probando socket io",
+    "fecha": "31/08/2021",
+    "hashtags": ["jdpantoja","chismesito","maurg1"],
+    "upvotes": 8000,
     "downvotes": 30
 }
