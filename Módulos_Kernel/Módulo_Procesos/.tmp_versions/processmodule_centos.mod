@@ -1,0 +1,2 @@
+/home/cloud-native-distributedsystem/Módulos_Kernel/Módulo_Procesos/processmodule_centos.ko
+/home/cloud-native-distributedsystem/Módulos_Kernel/Módulo_Procesos/processmodule_centos.o
