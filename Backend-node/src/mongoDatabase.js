@@ -110,6 +110,14 @@ export const topHashtags = async () => {
     return sortable
 }
 
+export const recentPosts = async () => {
+    const tweets = await collection()
+    const count = await tweets.count({})
+    const allTweets = await tweets.find({}).skip((count > 5 ? count - 5 : 0)).limit(5).toArray()
+    //console.log(allTweets)
+    return allTweets
+}
+
 //topHashtags()
 
 /*

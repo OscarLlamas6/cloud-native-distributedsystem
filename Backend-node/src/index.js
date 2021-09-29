@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-const { allTweets, countTweets, countHashTags, countUpvotes, upvotesVSdownvotes, topHashtags } = require('./mongoDatabase')
+const { allTweets, countTweets, countHashTags, countUpvotes, upvotesVSdownvotes, topHashtags, recentPosts } = require('./mongoDatabase')
 const mysql = require('mysql');
 const db = require('./database')
 const MySQLEvents = require('@rodrigogs/mysql-events');
@@ -15,15 +15,18 @@ app.use(cors())
 const server = http.createServer(app)
 const io = new WebSocketServer(server, { cors: { origin: '*' } })
 
+
 /* -------------------- IMPORTS PUBSUB -------------------- */
 let credentials_path = process.env.PUBSUB_KEY_PATH || '';
 process.env['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path;
 const subscriptionName = process.env.SUB_NAME || '';;
-const {PubSub} = require('@google-cloud/pubsub');
+const { PubSub } = require('@google-cloud/pubsub');
 const pubSubClient = new PubSub();
 const myMessages = [];
 let messageCount = 0;
 /* -------------------------------------------------------- */
+
+
 
 let val = false;
 
@@ -60,7 +63,9 @@ const CDBMemits = async () => {
 
     const tophashtags = await topHashtags()
 
-    io.emit('datamongo', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags })
+    const recentposts = await recentPosts()
+
+    io.emit('datamongo', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts })
 
     io.emit('val', val)
 }
@@ -93,7 +98,10 @@ const GCPemits = async () => {
     ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags
     GROUP BY hashtag ORDER BY TotalUpvotes desc LIMIT 5`, []);
 
-    io.emit('datamysql', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags })
+    const [recentposts, recentpostsf] = await connection.execute('select * from TWEET order by idTweet desc LIMIT 5', []);
+
+
+    io.emit('datamysql', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts })
 
     io.emit('val', val)
 }
@@ -132,12 +140,13 @@ const program = async () => {
 };
 
 const pubsub = async () => {
-    
+
     console.log("Listening for messages :)")
     const subscription = pubSubClient.subscription(subscriptionName);
     const messageHandler = message => {
         let msj = message;
         myMessages.push(msj)
+
         console.log(`Received message: id ${msj.id}`);
         console.log(`Data: ${msj.data}`);
         console.log(`Attributes: ${JSON.stringify(msj.attributes, null, 2)}`);
@@ -145,15 +154,18 @@ const pubsub = async () => {
         message.ack();
     };
     console.log(`${messageCount} message(s) received.`);
-    subscription.on('message', messageHandler);
+    subscription.on('message', (message) => {
+        messageHandler(message)
+        //io.emit('notificaciones', myMessages);
+    })
 
-    process.on('SIGINT', function() {
+    process.on('SIGINT', function () {
         subscription.removeListener('message', messageHandler);
         console.log(`${messageCount} message(s) received.`);
         process.exit();
     });
 
-    io.emit('notificaciones', myMessages);
+
 }
 
 program()

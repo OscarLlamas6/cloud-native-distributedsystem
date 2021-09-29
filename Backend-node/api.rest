@@ -3,10 +3,10 @@ POST http://34.125.59.108:4000/publicar
 Content-Type: application/json
 
 {
-    "nombre": "Robert",
-    "comentario": "Probando socket io",
-    "fecha": "28/09/2021",
-    "hashtags": ["docker","kunernetes"],
+    "nombre": "Ansu fati",
+    "comentario": "Probando socket io golang mongo db",
+    "fecha": "11/09/2021",
+    "hashtags": ["docker","kunernetes","sopes"],
     "upvotes": 40000,
     "downvotes": 10000
 }
@@ -16,12 +16,12 @@ POST http://34.125.59.108:4001/publicar
 Content-Type: application/json
 
 {
-    "nombre": "Robert",
-    "comentario": "Probando socket io",
+    "nombre": "Pin plata",
+    "comentario": "Probando socket escucha de mongo",
     "fecha": "31/08/2021",
-    "hashtags": ["ht1","ht2","ht3"],
-    "upvotes": 7,
-    "downvotes": 3000
+    "hashtags": ["sopes","kubernetes","containerd"],
+    "upvotes": 200,
+    "downvotes": 200
 }
 
 
