@@ -64,7 +64,7 @@ func Notificar(w http.ResponseWriter, r *http.Request) {
 		estado = 404
 		msj = "Error al interactuar con google Pub/Sub! :("
 	} else {
-		fmt.Printf("Nueva noticiación publicada desde (Google Cloud Functions) con el id: %v", id)
+		fmt.Printf("Nueva notificación publicada desde (Google Cloud Functions) con el id: %v", id)
 		msj = fmt.Sprintf("Notificacion enviada correctamente desde (Google Cloud Functions), id %v ! :D", id)
 	}
 
