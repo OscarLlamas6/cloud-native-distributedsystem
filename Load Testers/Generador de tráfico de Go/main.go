@@ -74,6 +74,8 @@ func getHost() string {
 	min := 1
 	max := 3
 	randNumber := min + rand.Intn(max-min+1)
+	max = 2
+	randApi := min + rand.Intn(max-min+1)
 	host := ""
 
 	// Check Type
@@ -84,13 +86,33 @@ func getHost() string {
 
 	} else if randNumber == 2 {
 
-		// Host Cloud Run
-		host = "apipyhton-wpyonbtsua-wn.a.run.app"
+		// Choose Api
+		if randApi == 1 {
+
+			// Host Cloud Run Python
+			host = "apipython-wpyonbtsua-wn.a.run.app"
+
+		} else if randApi == 2 {
+
+			// Host Cloud Run Go
+			host = "apigo-wpyonbtsua-wn.a.run.app"
+
+		}
 
 	} else if randNumber == 3 {
 
-		// Host Cloud Function
-		host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+		// Choose Api
+		if randApi == 1 {
+
+			// Host Cloud Function Python
+			host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+
+		} else if randApi == 2 {
+
+			// Host Cloud Function Go
+			host = "us-west2-sopes-proyecto1-324500.cloudfunctions.net"
+
+		}
 
 	}
 

@@ -55,6 +55,7 @@ class JsonUtilities():
 
         # Select Host 
         randNumber = random.randint(1, 3)
+        randApi = random.randint(1, 2)
         global host
 
         if randNumber == 1:
@@ -64,13 +65,29 @@ class JsonUtilities():
             
         elif randNumber == 2:
     
-            # Host Cloud Run 
-            host = "apipyhton-wpyonbtsua-wn.a.run.app"
+            # Choose Api 
+            if randApi == 1:
+
+                # Host Cloud Run Python
+                host = "apipython-wpyonbtsua-wn.a.run.app"
+            
+            elif randApi == 2:
+
+                # Host Cloud Run Go
+                host = "apigo-wpyonbtsua-wn.a.run.app"
 
         elif randNumber == 3:
 
-            # Host Cloud Function
-            host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+            # Choose Api 
+            if randApi == 1:
+
+                # Host Cloud Function Python
+                host = "us-west4-sopes-proyecto1-324500.cloudfunctions.net"
+            
+            elif randApi == 2:
+
+                # Host Cloud Function Go
+                host = "us-west2-sopes-proyecto1-324500.cloudfunctions.net"
 
         # Return Host
         return host
