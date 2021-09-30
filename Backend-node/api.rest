@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "nombre": "Ansu fati",
-    "comentario": "Probando socket io golang mongo db",
+    "comentario": "Api en app engine",
     "fecha": "11/09/2021",
     "hashtags": ["docker","kunernetes","sopes"],
     "upvotes": 40000,

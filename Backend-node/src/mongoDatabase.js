@@ -1,4 +1,4 @@
-const URI = process.env.COSMOSDB_CONNECTION
+const URI = 'mongodb://c2b8acdc-0ee0-4-231-b9ee:AaFFzNdgLk6rFKnGYj5h1wTouCPw5CbSvR6wPr9PkWVbwuH02kj9PDWPYR3BsMwbORhrN9rGBqJ1rr9xhpOWqw==@c2b8acdc-0ee0-4-231-b9ee.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@c2b8acdc-0ee0-4-231-b9ee@'
 
 var MongoClient = require('mongodb').MongoClient;
 

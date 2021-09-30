@@ -17,9 +17,9 @@ const io = new WebSocketServer(server, { cors: { origin: '*' } })
 
 
 /* -------------------- IMPORTS PUBSUB -------------------- */
-let credentials_path = process.env.PUBSUB_KEY_PATH || '';
+let credentials_path = 'pubsub.privatekey.json';
 process.env['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path;
-const subscriptionName = process.env.SUB_NAME || '';;
+const subscriptionName = 'projects/sopes-proyecto1-324500/subscriptions/sopes-sub';;
 const { PubSub } = require('@google-cloud/pubsub');
 const pubSubClient = new PubSub();
 const myMessages = [];
@@ -73,7 +73,7 @@ const CDBMemits = async () => {
 const GCPemits = async () => {
 
     const mysql = require('mysql2/promise');
-    const connection = await mysql.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+    const connection = await mysql.createConnection({ host: '34.69.19.145', user: 'root', database: 'SOPES1', password: '1234' });
 
     const [alltweets, alltweetsf] = await connection.execute('SELECT * FROM TWEET', []);
 
@@ -108,9 +108,9 @@ const GCPemits = async () => {
 
 const program = async () => {
     const connection = mysql.createConnection({
-        host: process.env.CLOUDSQL_HOST,
-        user: process.env.CLOUDSQL_USER,
-        password: process.env.CLOUDSQL_PASS,
+        host: '34.69.19.145',
+        user: 'root',
+        password: '1234',
     });
 
     const instance = new MySQLEvents(connection, {
@@ -176,8 +176,8 @@ pubsub()
     .then(() => console.log('Waiting for Pub/Sub notifications...'))
     .catch(console.error);
 
-server.listen(process.env.NODE_API_PORT || 3001)
-console.log('Server on port', 3001)
+server.listen(8080)
+console.log('Server on port', 8080)
 
 /*
 db.query(
