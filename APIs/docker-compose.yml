@@ -1,0 +1,24 @@
+version: "3.9"
+services:  
+  api-rust:
+    container_name: api-rust
+    image: api-rust
+    ports:
+      - 3040:3040
+    restart: unless-stopped
+  api-golang:
+    container_name: api-golang
+    image: api-golang
+    ports:
+      - 4000:4000
+    restart: unless-stopped
+  api-python:
+    container_name: api-python
+    image: api-python
+    ports:
+      - 4001:4001
+    restart: unless-stopped
+
+
+
+        

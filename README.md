@@ -17,7 +17,6 @@
 |201801628| Sergio Alexander Echigoyen Gómez|
 
 &nbsp;
-
 ---
 
 
@@ -29,9 +28,7 @@ generadores de tráfico, la información a mandar será detallada más adelante.
 contará con un modo “Administrador” en el cual se podrán visualizar gráficas y métricas relevantes de las 
 noticias, y de la información de la RAM y procesos de las máquinas virtuales que se tendrán en la nube.
 
-
 &nbsp;
-
 ---
 
 ## Diagrama general del sistema
