@@ -19,7 +19,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var URI = 'mongodb://c2b8acdc-0ee0-4-231-b9ee:AaFFzNdgLk6rFKnGYj5h1wTouCPw5CbSvR6wPr9PkWVbwuH02kj9PDWPYR3BsMwbORhrN9rGBqJ1rr9xhpOWqw==@c2b8acdc-0ee0-4-231-b9ee.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@c2b8acdc-0ee0-4-231-b9ee@';
+var URI = process.env.COSMOSDB_CONNECTION;
 
 var MongoClient = require('mongodb').MongoClient;
 

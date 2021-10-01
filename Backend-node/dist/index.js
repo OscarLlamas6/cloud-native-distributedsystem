@@ -47,9 +47,9 @@ var io = new _socket.Server(server, {
 });
 /* -------------------- IMPORTS PUBSUB -------------------- */
 
-var credentials_path = 'pubsub.privatekey.json';
+var credentials_path = process.env.PUBSUB_KEY_PATH || '';
 process.env['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path;
-var subscriptionName = 'projects/sopes-proyecto1-324500/subscriptions/sopes-sub';
+var subscriptionName = process.env.SUB_NAME || '';
 ;
 
 var _require2 = require('@google-cloud/pubsub'),
@@ -150,10 +150,10 @@ var GCPemits = /*#__PURE__*/function () {
             mysql = require('mysql2/promise');
             _context2.next = 3;
             return mysql.createConnection({
-              host: '34.69.19.145',
-              user: 'root',
-              database: 'SOPES1',
-              password: '1234'
+              host: process.env.CLOUDSQL_HOST,
+              user: process.env.CLOUDSQL_USER,
+              database: process.env.CLOUDSQL_DB,
+              password: process.env.CLOUDSQL_PASS
             });
 
           case 3:
@@ -246,9 +246,9 @@ var program = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             connection = mysql.createConnection({
-              host: '34.69.19.145',
-              user: 'root',
-              password: '1234'
+              host: process.env.CLOUDSQL_HOST,
+              user: process.env.CLOUDSQL_USER,
+              password: process.env.CLOUDSQL_PASS
             });
             instance = new MySQLEvents(connection, {
               startAtEnd: true,
@@ -299,6 +299,7 @@ var pubsub = /*#__PURE__*/function () {
             messageHandler = function messageHandler(message) {
               var msj = message;
               myMessages.push(msj);
+              console.log(msj);
               console.log("Received message: id ".concat(msj.id));
               console.log("Data: ".concat(msj.data));
               console.log("Attributes: ".concat(JSON.stringify(msj.attributes, null, 2)));
@@ -307,9 +308,7 @@ var pubsub = /*#__PURE__*/function () {
             };
 
             console.log("".concat(messageCount, " message(s) received."));
-            subscription.on('message', function (message) {
-              messageHandler(message); //io.emit('notificaciones', myMessages);
-            });
+            subscription.on('message', messageHandler);
             process.on('SIGINT', function () {
               subscription.removeListener('message', messageHandler);
               console.log("".concat(messageCount, " message(s) received."));
@@ -335,9 +334,15 @@ program().then(function () {
 pubsub().then(function () {
   return console.log('Waiting for Pub/Sub notifications...');
 })["catch"](console.error);
-server.listen(8080);
+server.listen(process.env.NODE_API_PORT || 8080);
 console.log('Server on port', 8080);
 /*
+//const mysql = require('mysql2/promise');
+        //const connection = await mysql.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+
+        //await connection.execute('INSERT INTO NOTIFICATION (body) VALUES(?)', [msj]);
+
+
 db.query(
     `SELECT SUM(upvotes) AS TotalUpvotes
     FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes

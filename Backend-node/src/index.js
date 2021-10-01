@@ -17,9 +17,9 @@ const io = new WebSocketServer(server, { cors: { origin: '*' } })
 
 
 /* -------------------- IMPORTS PUBSUB -------------------- */
-let credentials_path = 'pubsub.privatekey.json';
+let credentials_path = process.env.PUBSUB_KEY_PATH || '';
 process.env['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path;
-const subscriptionName = 'projects/sopes-proyecto1-324500/subscriptions/sopes-sub';;
+const subscriptionName = process.env.SUB_NAME || '';;
 const { PubSub } = require('@google-cloud/pubsub');
 const pubSubClient = new PubSub();
 const myMessages = [];
@@ -73,7 +73,7 @@ const CDBMemits = async () => {
 const GCPemits = async () => {
 
     const mysql = require('mysql2/promise');
-    const connection = await mysql.createConnection({ host: '34.69.19.145', user: 'root', database: 'SOPES1', password: '1234' });
+    const connection = await mysql.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
 
     const [alltweets, alltweetsf] = await connection.execute('SELECT * FROM TWEET', []);
 
@@ -108,9 +108,9 @@ const GCPemits = async () => {
 
 const program = async () => {
     const connection = mysql.createConnection({
-        host: '34.69.19.145',
-        user: 'root',
-        password: '1234',
+        host: process.env.CLOUDSQL_HOST,
+        user: process.env.CLOUDSQL_USER,
+        password: process.env.CLOUDSQL_PASS,
     });
 
     const instance = new MySQLEvents(connection, {
@@ -147,6 +147,9 @@ const pubsub = async () => {
         let msj = message;
         myMessages.push(msj)
 
+        console.log(msj)
+        
+
         console.log(`Received message: id ${msj.id}`);
         console.log(`Data: ${msj.data}`);
         console.log(`Attributes: ${JSON.stringify(msj.attributes, null, 2)}`);
@@ -154,10 +157,7 @@ const pubsub = async () => {
         message.ack();
     };
     console.log(`${messageCount} message(s) received.`);
-    subscription.on('message', (message) => {
-        messageHandler(message)
-        //io.emit('notificaciones', myMessages);
-    })
+    subscription.on('message', messageHandler)
 
     process.on('SIGINT', function () {
         subscription.removeListener('message', messageHandler);
@@ -176,10 +176,16 @@ pubsub()
     .then(() => console.log('Waiting for Pub/Sub notifications...'))
     .catch(console.error);
 
-server.listen(8080)
+server.listen(process.env.NODE_API_PORT || 8080)
 console.log('Server on port', 8080)
 
 /*
+//const mysql = require('mysql2/promise');
+        //const connection = await mysql.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+
+        //await connection.execute('INSERT INTO NOTIFICATION (body) VALUES(?)', [msj]);
+
+
 db.query(
     `SELECT SUM(upvotes) AS TotalUpvotes
     FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
