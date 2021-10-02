@@ -1,5 +1,7 @@
 "use strict";
 
+_dotenv["default"].config();
+
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
@@ -15,8 +17,6 @@ var _express = _interopRequireDefault(require("express"));
 var _socket = require("socket.io");
 
 var _http = _interopRequireDefault(require("http"));
-
-_dotenv["default"].config();
 
 var _require = require('./mongoDatabase'),
     allTweets = _require.allTweets,

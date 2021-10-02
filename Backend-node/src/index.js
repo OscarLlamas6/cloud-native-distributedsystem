@@ -2,8 +2,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 const { allTweets, countTweets, countHashTags, countUpvotes, upvotesVSdownvotes, topHashtags, recentPosts } = require('./mongoDatabase')
 const mysql = require('mysql');
-const db = require('./database')
 const MySQLEvents = require('@rodrigogs/mysql-events');
+/*-----------------------------CONEXION A MYSQL-------------------------- */
+const mysql2 = require('mysql2/promise');
+
+/*-----------------------------FIN CONEXION A MYSQL-------------------------- */
 import express from 'express'
 var cors = require('cors')
 import { Server as WebSocketServer, Socket } from 'socket.io'
@@ -31,6 +34,7 @@ let messageCount = 0;
 let val = false;
 
 io.on('connection', (socket) => {
+    
 
     socket.on('conectado', () => {
         console.log('nueva conexion', socket.id)
@@ -72,9 +76,8 @@ const CDBMemits = async () => {
 
 const GCPemits = async () => {
 
-    const mysql = require('mysql2/promise');
-    const connection = await mysql.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
-
+    const connection = await mysql2.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+    
     const [alltweets, alltweetsf] = await connection.execute('SELECT * FROM TWEET', []);
 
     const [counttweets, counttweetsf] = await connection.execute('SELECT count(*) as count FROM TWEET', []);
@@ -100,8 +103,9 @@ const GCPemits = async () => {
 
     const [recentposts, recentpostsf] = await connection.execute('select * from TWEET order by idTweet desc LIMIT 5', []);
 
+    const [allNotificatons, allNotificatonsf] = await connection.execute('SELECT * FROM NOTIFICACION', []);
 
-    io.emit('datamysql', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts })
+    io.emit('datamysql', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts, allPubsub: allNotificatons })
 
     io.emit('val', val)
 }
@@ -143,12 +147,19 @@ const pubsub = async () => {
 
     console.log("Listening for messages :)")
     const subscription = pubSubClient.subscription(subscriptionName);
-    const messageHandler = message => {
+    const messageHandler = async (message) =>  {
         let msj = message;
         myMessages.push(msj)
 
-        console.log(msj)
+        const connection = await mysql2.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
         
+        try {
+
+            await connection.execute('INSERT INTO NOTIFICACION (cadena, api, tiempo, guardados) VALUES(?,?,?,?)',
+         [msj.data.toString()+"",msj.attributes.api.toString()+"",msj.attributes.tiempoDeCarga.toString()+"",msj.attributes.guardados.toString()]);
+        } catch (error) {
+            console.log(error)
+        }     
 
         console.log(`Received message: id ${msj.id}`);
         console.log(`Data: ${msj.data}`);
@@ -169,7 +180,17 @@ const pubsub = async () => {
 }
 
 program()
-    .then(() => console.log('Waiting for database events...'))
+    .then( async () => {
+        const connection = await mysql2.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+        await connection.execute(`CREATE TABLE IF NOT EXISTS NOTIFICACION(
+            idNotificacion INT NOT NULL AUTO_INCREMENT,
+            cadena VARCHAR(1000) NULL,
+            api VARCHAR(1000) NOT NULL,
+            tiempo VARCHAR(1000) NOT NULL,
+            guardados VARCHAR(1000) NOT NULL,
+            PRIMARY KEY (idNotificacion));`, []);
+        //await connection.execute('TRUNCATE NOTIFICACION', []);
+        console.log('Waiting for database events...')})
     .catch(console.error);
 
 pubsub()
