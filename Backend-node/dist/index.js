@@ -1,7 +1,5 @@
 "use strict";
 
-_dotenv["default"].config();
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
@@ -18,6 +16,8 @@ var _socket = require("socket.io");
 
 var _http = _interopRequireDefault(require("http"));
 
+_dotenv["default"].config();
+
 var _require = require('./mongoDatabase'),
     allTweets = _require.allTweets,
     countTweets = _require.countTweets,
@@ -29,9 +29,11 @@ var _require = require('./mongoDatabase'),
 
 var mysql = require('mysql');
 
-var db = require('./database');
-
 var MySQLEvents = require('@rodrigogs/mysql-events');
+/*-----------------------------CONEXION A MYSQL-------------------------- */
+
+/*-----------------------------FIN CONEXION A MYSQL-------------------------- */
+
 
 var cors = require('cors');
 
@@ -75,7 +77,8 @@ io.on('connection', function (socket) {
 
 var CDBMemits = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    var alltweets, counttweets, counthashtags, countupvotes, upvotesvsdownvotes, tophashtags, recentposts;
+    var alltweets, counttweets, counthashtags, countupvotes, upvotesvsdownvotes, tophashtags, recentposts, mysql2, connection, _yield$connection$exe, _yield$connection$exe2, allNotificatons, allNotificatonsf;
+
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -115,6 +118,25 @@ var CDBMemits = /*#__PURE__*/function () {
 
           case 20:
             recentposts = _context.sent;
+            mysql2 = require('mysql2/promise');
+            _context.next = 24;
+            return mysql2.createConnection({
+              host: process.env.CLOUDSQL_HOST,
+              user: process.env.CLOUDSQL_USER,
+              database: process.env.CLOUDSQL_DB,
+              password: process.env.CLOUDSQL_PASS
+            });
+
+          case 24:
+            connection = _context.sent;
+            _context.next = 27;
+            return connection.execute('SELECT * FROM NOTIFICACION order by idNotificacion desc', []);
+
+          case 27:
+            _yield$connection$exe = _context.sent;
+            _yield$connection$exe2 = (0, _slicedToArray2["default"])(_yield$connection$exe, 2);
+            allNotificatons = _yield$connection$exe2[0];
+            allNotificatonsf = _yield$connection$exe2[1];
             io.emit('datamongo', {
               alltweets: alltweets,
               counttweets: counttweets,
@@ -122,11 +144,12 @@ var CDBMemits = /*#__PURE__*/function () {
               countupvotes: countupvotes,
               upvotesvsdownvotes: upvotesvsdownvotes,
               tophashtags: tophashtags,
-              recentposts: recentposts
+              recentposts: recentposts,
+              allPubsub: allNotificatons
             });
             io.emit('val', val);
 
-          case 23:
+          case 33:
           case "end":
             return _context.stop();
         }
@@ -141,15 +164,15 @@ var CDBMemits = /*#__PURE__*/function () {
 
 var GCPemits = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2() {
-    var mysql, connection, _yield$connection$exe, _yield$connection$exe2, alltweets, alltweetsf, _yield$connection$exe3, _yield$connection$exe4, counttweets, counttweetsf, _yield$connection$exe5, _yield$connection$exe6, counthashtags, counthashtagsf, _yield$connection$exe7, _yield$connection$exe8, countupvotes, countupvotesf, _yield$connection$exe9, _yield$connection$exe10, upvotesvsdownvotes, upvotesvsdownvotesf, _yield$connection$exe11, _yield$connection$exe12, tophashtags, tophashtagsf, _yield$connection$exe13, _yield$connection$exe14, recentposts, recentpostsf;
+    var mysql2, connection, _yield$connection$exe3, _yield$connection$exe4, alltweets, alltweetsf, _yield$connection$exe5, _yield$connection$exe6, counttweets, counttweetsf, _yield$connection$exe7, _yield$connection$exe8, counthashtags, counthashtagsf, _yield$connection$exe9, _yield$connection$exe10, countupvotes, countupvotesf, _yield$connection$exe11, _yield$connection$exe12, upvotesvsdownvotes, upvotesvsdownvotesf, _yield$connection$exe13, _yield$connection$exe14, tophashtags, tophashtagsf, _yield$connection$exe15, _yield$connection$exe16, recentposts, recentpostsf, _yield$connection$exe17, _yield$connection$exe18, allNotificatons, allNotificatonsf;
 
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            mysql = require('mysql2/promise');
+            mysql2 = require('mysql2/promise');
             _context2.next = 3;
-            return mysql.createConnection({
+            return mysql2.createConnection({
               host: process.env.CLOUDSQL_HOST,
               user: process.env.CLOUDSQL_USER,
               database: process.env.CLOUDSQL_DB,
@@ -162,58 +185,66 @@ var GCPemits = /*#__PURE__*/function () {
             return connection.execute('SELECT * FROM TWEET', []);
 
           case 6:
-            _yield$connection$exe = _context2.sent;
-            _yield$connection$exe2 = (0, _slicedToArray2["default"])(_yield$connection$exe, 2);
-            alltweets = _yield$connection$exe2[0];
-            alltweetsf = _yield$connection$exe2[1];
+            _yield$connection$exe3 = _context2.sent;
+            _yield$connection$exe4 = (0, _slicedToArray2["default"])(_yield$connection$exe3, 2);
+            alltweets = _yield$connection$exe4[0];
+            alltweetsf = _yield$connection$exe4[1];
             _context2.next = 12;
             return connection.execute('SELECT count(*) as count FROM TWEET', []);
 
           case 12:
-            _yield$connection$exe3 = _context2.sent;
-            _yield$connection$exe4 = (0, _slicedToArray2["default"])(_yield$connection$exe3, 2);
-            counttweets = _yield$connection$exe4[0];
-            counttweetsf = _yield$connection$exe4[1];
+            _yield$connection$exe5 = _context2.sent;
+            _yield$connection$exe6 = (0, _slicedToArray2["default"])(_yield$connection$exe5, 2);
+            counttweets = _yield$connection$exe6[0];
+            counttweetsf = _yield$connection$exe6[1];
             _context2.next = 18;
             return connection.execute("SELECT count(*) as count FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag\n    FROM (SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET\n    ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1\n    group by hashtag) AS ListaHashtags", []);
 
           case 18:
-            _yield$connection$exe5 = _context2.sent;
-            _yield$connection$exe6 = (0, _slicedToArray2["default"])(_yield$connection$exe5, 2);
-            counthashtags = _yield$connection$exe6[0];
-            counthashtagsf = _yield$connection$exe6[1];
+            _yield$connection$exe7 = _context2.sent;
+            _yield$connection$exe8 = (0, _slicedToArray2["default"])(_yield$connection$exe7, 2);
+            counthashtags = _yield$connection$exe8[0];
+            counthashtagsf = _yield$connection$exe8[1];
             _context2.next = 24;
             return connection.execute("SELECT SUM(upvotes) AS count from TWEET", []);
 
           case 24:
-            _yield$connection$exe7 = _context2.sent;
-            _yield$connection$exe8 = (0, _slicedToArray2["default"])(_yield$connection$exe7, 2);
-            countupvotes = _yield$connection$exe8[0];
-            countupvotesf = _yield$connection$exe8[1];
+            _yield$connection$exe9 = _context2.sent;
+            _yield$connection$exe10 = (0, _slicedToArray2["default"])(_yield$connection$exe9, 2);
+            countupvotes = _yield$connection$exe10[0];
+            countupvotesf = _yield$connection$exe10[1];
             _context2.next = 30;
             return connection.execute("SELECT fecha, sum(upvotes) AS upvotes, sum(downvotes) AS downvotes\n    FROM (SELECT DATE_FORMAT(fecha, '%e/%m/%Y') AS fecha, upvotes, downvotes\n    FROM (SELECT upvotes, downvotes, STR_TO_DATE(fecha, '%e/%m/%Y') AS fecha FROM TWEET) AS FechaConvertida) \n    AS FechasFormateadas GROUP BY  fecha", []);
 
           case 30:
-            _yield$connection$exe9 = _context2.sent;
-            _yield$connection$exe10 = (0, _slicedToArray2["default"])(_yield$connection$exe9, 2);
-            upvotesvsdownvotes = _yield$connection$exe10[0];
-            upvotesvsdownvotesf = _yield$connection$exe10[1];
+            _yield$connection$exe11 = _context2.sent;
+            _yield$connection$exe12 = (0, _slicedToArray2["default"])(_yield$connection$exe11, 2);
+            upvotesvsdownvotes = _yield$connection$exe12[0];
+            upvotesvsdownvotesf = _yield$connection$exe12[1];
             _context2.next = 36;
             return connection.execute("SELECT SUM(upvotes) AS TotalUpvotes, hashtag\n    FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes\n    FROM (SELECT 1 n UNION ALL SELECT 2\n    UNION ALL SELECT 3 UNION ALL SELECT 4) numbers INNER JOIN TWEET\n    ON CHAR_LENGTH(hashtags) -CHAR_LENGTH(REPLACE(hashtags, ',', ''))>=numbers.n-1) AS ListaHashtags\n    GROUP BY hashtag ORDER BY TotalUpvotes desc LIMIT 5", []);
 
           case 36:
-            _yield$connection$exe11 = _context2.sent;
-            _yield$connection$exe12 = (0, _slicedToArray2["default"])(_yield$connection$exe11, 2);
-            tophashtags = _yield$connection$exe12[0];
-            tophashtagsf = _yield$connection$exe12[1];
+            _yield$connection$exe13 = _context2.sent;
+            _yield$connection$exe14 = (0, _slicedToArray2["default"])(_yield$connection$exe13, 2);
+            tophashtags = _yield$connection$exe14[0];
+            tophashtagsf = _yield$connection$exe14[1];
             _context2.next = 42;
             return connection.execute('select * from TWEET order by idTweet desc LIMIT 5', []);
 
           case 42:
-            _yield$connection$exe13 = _context2.sent;
-            _yield$connection$exe14 = (0, _slicedToArray2["default"])(_yield$connection$exe13, 2);
-            recentposts = _yield$connection$exe14[0];
-            recentpostsf = _yield$connection$exe14[1];
+            _yield$connection$exe15 = _context2.sent;
+            _yield$connection$exe16 = (0, _slicedToArray2["default"])(_yield$connection$exe15, 2);
+            recentposts = _yield$connection$exe16[0];
+            recentpostsf = _yield$connection$exe16[1];
+            _context2.next = 48;
+            return connection.execute('SELECT * FROM NOTIFICACION order by idNotificacion desc', []);
+
+          case 48:
+            _yield$connection$exe17 = _context2.sent;
+            _yield$connection$exe18 = (0, _slicedToArray2["default"])(_yield$connection$exe17, 2);
+            allNotificatons = _yield$connection$exe18[0];
+            allNotificatonsf = _yield$connection$exe18[1];
             io.emit('datamysql', {
               alltweets: alltweets,
               counttweets: counttweets,
@@ -221,11 +252,12 @@ var GCPemits = /*#__PURE__*/function () {
               countupvotes: countupvotes,
               upvotesvsdownvotes: upvotesvsdownvotes,
               tophashtags: tophashtags,
-              recentposts: recentposts
+              recentposts: recentposts,
+              allPubsub: allNotificatons
             });
             io.emit('val', val);
 
-          case 48:
+          case 54:
           case "end":
             return _context2.stop();
         }
@@ -287,25 +319,67 @@ var program = /*#__PURE__*/function () {
 }();
 
 var pubsub = /*#__PURE__*/function () {
-  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
+  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5() {
     var subscription, messageHandler;
-    return _regenerator["default"].wrap(function _callee4$(_context4) {
+    return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             console.log("Listening for messages :)");
             subscription = pubSubClient.subscription(subscriptionName);
 
-            messageHandler = function messageHandler(message) {
-              var msj = message;
-              myMessages.push(msj);
-              console.log(msj);
-              console.log("Received message: id ".concat(msj.id));
-              console.log("Data: ".concat(msj.data));
-              console.log("Attributes: ".concat(JSON.stringify(msj.attributes, null, 2)));
-              messageCount += 1;
-              message.ack();
-            };
+            messageHandler = /*#__PURE__*/function () {
+              var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(message) {
+                var msj, mysql2, connection;
+                return _regenerator["default"].wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        msj = message;
+                        myMessages.push(msj);
+                        mysql2 = require('mysql2/promise');
+                        _context4.next = 5;
+                        return mysql2.createConnection({
+                          host: process.env.CLOUDSQL_HOST,
+                          user: process.env.CLOUDSQL_USER,
+                          database: process.env.CLOUDSQL_DB,
+                          password: process.env.CLOUDSQL_PASS
+                        });
+
+                      case 5:
+                        connection = _context4.sent;
+                        _context4.prev = 6;
+                        _context4.next = 9;
+                        return connection.execute('INSERT INTO NOTIFICACION (cadena, api, tiempo, guardados) VALUES(?,?,?,?)', [msj.data.toString() + "", msj.attributes.api.toString() + "", msj.attributes.tiempoDeCarga.toString() + "", msj.attributes.guardados.toString()]);
+
+                      case 9:
+                        _context4.next = 14;
+                        break;
+
+                      case 11:
+                        _context4.prev = 11;
+                        _context4.t0 = _context4["catch"](6);
+                        console.log(_context4.t0);
+
+                      case 14:
+                        console.log("Received message: id ".concat(msj.id));
+                        console.log("Data: ".concat(msj.data));
+                        console.log("Attributes: ".concat(JSON.stringify(msj.attributes, null, 2)));
+                        messageCount += 1;
+                        message.ack();
+
+                      case 19:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4, null, [[6, 11]]);
+              }));
+
+              return function messageHandler(_x) {
+                return _ref5.apply(this, arguments);
+              };
+            }();
 
             console.log("".concat(messageCount, " message(s) received."));
             subscription.on('message', messageHandler);
@@ -317,10 +391,10 @@ var pubsub = /*#__PURE__*/function () {
 
           case 6:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5);
   }));
 
   return function pubsub() {
@@ -328,9 +402,20 @@ var pubsub = /*#__PURE__*/function () {
   };
 }();
 
-program().then(function () {
-  return console.log('Waiting for database events...');
-})["catch"](console.error);
+program().then( /*#__PURE__*/(0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6() {
+  return _regenerator["default"].wrap(function _callee6$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          console.log('Waiting for database events...');
+
+        case 1:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, _callee6);
+})))["catch"](console.error);
 pubsub().then(function () {
   return console.log('Waiting for Pub/Sub notifications...');
 })["catch"](console.error);
