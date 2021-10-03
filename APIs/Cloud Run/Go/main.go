@@ -184,7 +184,7 @@ func notificar(w http.ResponseWriter, r *http.Request) {
 		msj = "Error al interactuar con google Pub/Sub! :("
 	} else {
 		fmt.Printf("Nueva noticiación publicada con el id: %v", id)
-		msj = fmt.Sprintf("Notificacion os.Getenv(iada correctamente, id %v ! :D", id)
+		msj = fmt.Sprintf("Notificación publicada correctamente, id %v ! :D", id)
 	}
 
 	var newMensaje mensaje
