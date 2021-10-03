@@ -48,7 +48,7 @@ func conexionGoogleCloud() (conexion *sql.DB) {
 
 	conexion, err2 := sql.Open(Driver, Usuario+":"+Contrasena+"@tcp("+Ip+")/"+Nombre)
 	if err2 != nil {
-		panic(err.Error())
+		panic(err2.Error())
 	}
 	return conexion
 }
