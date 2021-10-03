@@ -15,7 +15,6 @@ import (
 	"cloud.google.com/go/pubsub"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -41,9 +40,8 @@ type notificacion struct {
 
 func conexionGoogleCloud() (conexion *sql.DB) {
 
-
 	Driver := os.Getenv("DRIVER")
-	Usuario := os.Getenv(["USUARIO")
+	Usuario := os.Getenv("USUARIO")
 	Contrasena := os.Getenv("CONTRASENA")
 	Nombre := os.Getenv("NOMBRE")
 	Ip := os.Getenv("IP")
@@ -143,7 +141,6 @@ func saludo(w http.ResponseWriter, r *http.Request) {
 }
 
 func notificar(w http.ResponseWriter, r *http.Request) {
-
 
 	estado := 202
 	msj := ""
