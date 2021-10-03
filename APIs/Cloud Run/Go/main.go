@@ -123,7 +123,7 @@ func crearTweet(w http.ResponseWriter, r *http.Request) {
 	createTweetCosmos(newTweet)
 
 	var newMensaje mensaje
-	newMensaje.Mensaje = "Nuevo elemento insertado correctamente desde Golang! :D"
+	newMensaje.Mensaje = "Nuevo elemento insertado correctamente desde Golang (Google Cloud Run)! :D"
 	newMensaje.Status = 202
 
 	w.Header().Set("Content-Type", "application/json")
@@ -183,8 +183,8 @@ func notificar(w http.ResponseWriter, r *http.Request) {
 		estado = 404
 		msj = "Error al interactuar con google Pub/Sub! :("
 	} else {
-		fmt.Printf("Nueva noticiación publicada con el id: %v", id)
-		msj = fmt.Sprintf("Notificación publicada correctamente, id %v ! :D", id)
+		fmt.Printf("Nueva noticiación publicada desde Golang (Google Cloud Run) con el id: %v", id)
+		msj = fmt.Sprintf("Notificación publicada correctamente desde Golang (Google Cloud Run), id %v ! :D", id)
 	}
 
 	var newMensaje mensaje

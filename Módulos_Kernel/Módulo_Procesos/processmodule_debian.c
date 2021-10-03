@@ -61,7 +61,7 @@ int writeFile(struct seq_file* file, void *v) {
     }  
 
     // Operation 
-    porcent = numberCpu / 10 / numberProcess;
+    porcent = numberCpu / 10 * 100 / numberProcess;
 
 
     // Write In File Values

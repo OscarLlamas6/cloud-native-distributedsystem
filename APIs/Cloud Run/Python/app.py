@@ -68,7 +68,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             }
 
             future = publisher.publish(topic_path, data, **attributes)
-            response_data = {"status": 202, "Mensaje": f'Notificación enviada correctamente, id {future.result()} ! :D'}     
+            response_data = {"status": 202, "Mensaje": f'Notificación enviada correctamente desde Python (Google Cloud Run), id {future.result()} ! :D'}     
         except:
             status = 404
             response_data = {"status": 404, "Mensaje": "Error al interactuar con google Pub/Sub! :("}
@@ -216,7 +216,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
                                             str(reqData["fecha"]),str(hashtagsStr),str(reqData["upvotes"]),
                                             str(reqData["downvotes"])))
                 conexion.commit()
-                response_data = {"status": 202, "Mensaje": "Nuevo elemento insertado correctamente! :D"}
+                response_data = {"status": 202, "Mensaje": "Nuevo elemento insertado correctamente desde Python (Google Cloud Run)! :D"}
             except:
                 status = 404
                 response_data = {"status": 404, "Mensaje": "Error al interactuar con Cloud SQL! :("}
