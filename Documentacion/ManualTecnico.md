@@ -479,11 +479,65 @@ services:
 
 ## Prometheus
 
+<div style="text-align: justify"> Prometheus es un sistema de monitoreo de código abierto creado en 2012 por Soundcloud. En 2016, Prometheus se convirtió en el segundo proyecto (después de Kubernetes) alojado por Cloud Native Computing Foundation.
+
+El servidor de Prometheus recopila métricas de sus servidores y otros objetivos de supervisión extrayendo sus puntos finales de métricas a través de HTTP en un intervalo de tiempo predefinido. Para trabajos efímeros y por lotes, para los que las métricas no se pueden raspar periódicamente debido a su naturaleza de corta duración, Prometheus ofrece un Pushgateway. Este es un servidor intermedio al que los objetivos de supervisión pueden enviar sus métricas antes de salir. Los datos se conservan allí hasta que el servidor Prometheus los extrae más tarde.
+
+La estructura de datos central de Prometheus es la serie de tiempo, que es esencialmente una lista de valores con marca de tiempo agrupados por métricas. </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/PTp4P1s/prometheus.png" width="500" height="170" />
+</p>
+&nbsp;
+
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/10pwgnd/prometheusgui.jpg" width="500" height="250" />
+</p>
+
+<div style="text-align: center"> Implementación de Prometheus en este proyecto. </div>
+
+&nbsp;
+---
+
 ## Grafana
+
+<div style="text-align: justify"> Grafana es una aplicación web que te permite visualizar fuentes de datos. Una visualización puede ser un gráfico o una tabla. Viene con una variedad de tipos de gráficos, lo que le permite elegir lo que se adapte a sus necesidades de datos de monitoreo. En Grafana, se agrupan varios gráficos en paneles de control, de modo que se pueden ver varias métricas a la vez.
+
+Las métricas que se muestran en los gráficos de Grafana provienen de fuentes de datos. Prometheus es una de las fuentes de datos compatibles con Grafana, pero también puede utilizar otros sistemas, como AWS CloudWatch o Azure Monitor. </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/3vsFFz0/grafana.png" width="500" height="170" />
+</p>
+&nbsp;
+
+<p align="center" >
+  <img src="https://i.ibb.co/WKFhczy/grafanagui.jpg" width="500" height="250" />
+</p>
+
+<div style="text-align: center"> Implementación de Grafana en este proyecto. </div>
+
+&nbsp;
+---
+
 
 ## React
 
+<div style="text-align: justify"> React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página. Es mantenido por Facebook y la comunidad de software libre.  </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/2sXX1Qv/react.jpg" width="500" height="170" />
+</p>
+&nbsp;
+
 ## Sockets-io
+
+<div style="text-align: justify"> Es una librería open source con una amplia comunidad que nos ayudará a contruir aplicaciones con conexión persitente entre cliente y servidor. Por lo que contaremos con librerías para cada lado..  </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/6YMCBJ5/socketsio.jpg" width="500" height="170" />
+</p>
+&nbsp;
 
 # Preguntas
 
