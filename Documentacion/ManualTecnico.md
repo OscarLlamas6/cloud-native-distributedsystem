@@ -59,9 +59,8 @@
     - [Pregunta 5](#pregunta-5)
     - [Pregunta 6](#pregunta-6)
 - [Screenshots](#screenshots)
-
-&nbsp;
 ---
+
 # Descripción general
 
 <div style="text-align: justify"> • El sistema será totalmente en la nube, utilizando diferentes servicios de Google Cloud Platform y una base de datos de Cosmos DB en Microsoft Azure. Contará con una carga masiva de datos a partir de diferentes generadores de tráfico, la información a mandar será detallada más adelante. Además de este sistema, se contará con un modo “Administrador” en el cual se podrán visualizar gráficas y métricas relevantes de las noticias, y de la información de la RAM y procesos de las máquinas virtuales que se tendrán en la nube.  </div>
