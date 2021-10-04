@@ -710,3 +710,5 @@ fue el peor? ¿Por qué?</b></div>
 &nbsp;
 
 # Screenshots
+
+### Screenshots de participación para extras: [Google Drive](https://docs.google.com/document/d/1XlRnIeDpzDli_rk4gQTNDx6UFS0TeNvNcKZIm83Svy8/edit?usp=sharing)
