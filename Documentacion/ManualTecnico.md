@@ -52,6 +52,12 @@
     - [React](#react)
     - [Sockets-io](#sockets-io) 
 - [Preguntas](#preguntas)
+    - [Pregunta 1](#pregunta-1)
+    - [Pregunta 2](#pregunta-2)
+    - [Pregunta 3](#pregunta-3)
+    - [Pregunta 4](#pregunta-4)
+    - [Pregunta 5](#pregunta-5)
+    - [Pregunta 6](#pregunta-6)
 - [Screenshots](#screenshots)
 
 &nbsp;
@@ -540,5 +546,72 @@ Las métricas que se muestran en los gráficos de Grafana provienen de fuentes d
 &nbsp;
 
 # Preguntas
+
+## Pregunta 1
+
+<div style="text-align: justify"><b> ¿Qué generador de tráfico (Load Tester) es más rápido? ¿Qué diferencias hay entre las implementaciones de los generadores de tráfico?</b> </div>
+&nbsp;
+<div style="text-align: justify"> La implementación de cada uno de los Load Testers utilizados en este proyecto (Golang, Python y Locust) fue distinta. En el caso de los generadores de tráfico con Golang y Python se utilizaron librerias nativas de cada lenguaje para desarrollar el Load Tester; Locust, a diferencia de los dos anteriores, al ser una libreria ya definida ofrece más bondades a la hora de realizar y configurar un generador de tráfico, como por ejemplo un dashboard con gráficas e información detallada durante el proceso de load testing.</div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/71B2vB1/image.png" width="450" height="250" />
+</p>
+<div style="text-align: center"> Ejemplo de gráfica proporcionada por la libreria Locust.</div>
+&nbsp;
+<div style="text-align: justify"> Con un testeo de 20 de datos insertados, el generador más rápido resultó ser el de Golang el cual realizó las 20 peticiones en 36 segundos.. A continuación se muestran los diferentes resultados de cada Load Tester. </div>
+
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/m0YkDDv/image.png" width="450" height="250" />
+</p>
+<div style="text-align: center"> Load Tester Golang: 20 peticiones en 36 segundos. </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/rdpSYk9/image.png" width="450" height="250" />
+</p>
+<div style="text-align: center"> Load Tester Python: 20 peticiones en 37 segundos. </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/9GG2bnm/image.png" width="450" height="250" />
+</p>
+<div style="text-align: center"> Load Tester Locust: 20 peticiones en 41 segundos. </div>
+&nbsp;
+
+
+## Pregunta 2
+
+<div style="text-align: justify"><b> ¿Qué lenguaje de programación utilizado para las APIs fue más óptimo con relación al tiempo de respuesta entre peticiones? ¿Qué lenguaje tuvo el performance menos óptimo?</b></div>
+&nbsp;
+<div style="text-align: justify"> Para responder esta pregunta, se realizaron peticiones con cada API (Golang, Python y Rust) en la misma máquina (VM con Docker instalado en Centos). Los resultados fueron los siguientes: </div>
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/dMBs21M/image.png" width="750" height="400" />
+</p>
+<div style="text-align: center"> API Golang: 1,435 milisegundos </div>
+&nbsp;
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/xFn83Fr/image.png" width="750" height="400" />
+</p>
+<div style="text-align: center"> API Python: 1,591 milisegundos </div>
+&nbsp;
+&nbsp;
+<p align="center" >
+  <img src="https://i.ibb.co/Q9Qs9XY/image.png" width="750" height="400" />
+</p>
+<div style="text-align: center"> API Rust: 3.09 segundos </div>
+&nbsp;
+
+&nbsp;
+<div style="text-align: justify"> En conclusión la API con mejor desempeño fue la de Golang con un tiempo de 1,435 milisegundos y por el contrario la que tuvo el peor desempeño fue la API de Rust con un tiempo de 3.09 segundos, más del doble que la API de Golang. </div>
+&nbsp;
+
+## Pregunta 3
+
+## Pregunta 4
+
+## Pregunta 5
+
+## Pregunta 6
 
 # Screenshots
