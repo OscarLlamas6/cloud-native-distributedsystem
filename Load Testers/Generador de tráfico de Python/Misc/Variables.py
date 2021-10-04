@@ -11,3 +11,6 @@ host = ""
 
 # Report Array
 reportArray = []
+
+# Charge Time 
+chargeTime = 0

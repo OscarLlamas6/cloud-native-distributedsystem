@@ -41,6 +41,9 @@ var dataArray []jsonModel
 // Array Report
 var reportArray []*http.Response
 
+// Tiempo De Carga
+var chargeTime int
+
 // Init
 func init() {
 
@@ -285,9 +288,12 @@ func SendTraffic(host string) {
 
 		// Make Json
 		jsonBody := pubSubModel{
-			Guardados:     len(dataArray),
+			Guardados:     Succesfully(),
 			Tiempodecarga: int(final/time.Millisecond) / 1000,
 		}
+
+		// Add Time 
+		chargeTime = int(final/time.Millisecond) / 1000
 
 		// Convert Json Body
 		postBody := new(bytes.Buffer)
@@ -335,6 +341,30 @@ func AddSpaces(sizeHeader int, sizeItem int) {
 		fmt.Print(" ")
 
 	}
+
+}
+
+// Succesfully Count
+func Succesfully() int {
+
+	// Variables
+	success := 0
+
+	// For
+	for _, Item := range reportArray {
+
+		// Check Status
+		if Item.StatusCode >= 200 && Item.StatusCode < 300 {
+
+			// Increment
+			success++
+
+		} 
+
+	}
+
+	// Return
+	return success
 
 }
 
@@ -397,6 +427,7 @@ func ReportTest() {
 	fmt.Println("")
 	fmt.Println(string(getColor("green")), "Number Of Data Sent Successfully!: ", strconv.Itoa(success))
 	fmt.Println(string(getColor("red")), "Number Of Data With Error!: ", strconv.Itoa(error))
+	fmt.Println(string(getColor("green")), "Charge Time!:", strconv.Itoa(chargeTime), " segundos")
 
 }
 
