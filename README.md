@@ -19,7 +19,6 @@
 &nbsp;
 ---
 
-
 ## Descripción
 
 El sistema será totalmente en la nube, utilizando diferentes servicios de Google Cloud Platform y una base de 

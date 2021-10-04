@@ -2,8 +2,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 const { allTweets, countTweets, countHashTags, countUpvotes, upvotesVSdownvotes, topHashtags, recentPosts } = require('./mongoDatabase')
 const mysql = require('mysql');
-const db = require('./database')
 const MySQLEvents = require('@rodrigogs/mysql-events');
+/*-----------------------------CONEXION A MYSQL-------------------------- */
+
+
+/*-----------------------------FIN CONEXION A MYSQL-------------------------- */
 import express from 'express'
 var cors = require('cors')
 import { Server as WebSocketServer, Socket } from 'socket.io'
@@ -17,9 +20,9 @@ const io = new WebSocketServer(server, { cors: { origin: '*' } })
 
 
 /* -------------------- IMPORTS PUBSUB -------------------- */
-let credentials_path = 'pubsub.privatekey.json';
+let credentials_path = process.env.PUBSUB_KEY_PATH || '';
 process.env['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path;
-const subscriptionName = 'projects/sopes-proyecto1-324500/subscriptions/sopes-sub';;
+const subscriptionName = process.env.SUB_NAME || '';;
 const { PubSub } = require('@google-cloud/pubsub');
 const pubSubClient = new PubSub();
 const myMessages = [];
@@ -31,6 +34,7 @@ let messageCount = 0;
 let val = false;
 
 io.on('connection', (socket) => {
+
 
     socket.on('conectado', () => {
         console.log('nueva conexion', socket.id)
@@ -65,15 +69,20 @@ const CDBMemits = async () => {
 
     const recentposts = await recentPosts()
 
-    io.emit('datamongo', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts })
+    const mysql2 = require('mysql2/promise');
+    const connection = await mysql2.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+    const [allNotificatons, allNotificatonsf] = await connection.execute('SELECT * FROM NOTIFICACION order by idNotificacion desc', []);
+
+    io.emit('datamongo', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts, allPubsub: allNotificatons })
 
     io.emit('val', val)
 }
 
 const GCPemits = async () => {
+    
+    const mysql2 = require('mysql2/promise');
 
-    const mysql = require('mysql2/promise');
-    const connection = await mysql.createConnection({ host: '34.69.19.145', user: 'root', database: 'SOPES1', password: '1234' });
+    const connection = await mysql2.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
 
     const [alltweets, alltweetsf] = await connection.execute('SELECT * FROM TWEET', []);
 
@@ -100,17 +109,18 @@ const GCPemits = async () => {
 
     const [recentposts, recentpostsf] = await connection.execute('select * from TWEET order by idTweet desc LIMIT 5', []);
 
+    const [allNotificatons, allNotificatonsf] = await connection.execute('SELECT * FROM NOTIFICACION order by idNotificacion desc', []);
 
-    io.emit('datamysql', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts })
+    io.emit('datamysql', { alltweets: alltweets, counttweets: counttweets, counthashtags: counthashtags, countupvotes: countupvotes, upvotesvsdownvotes: upvotesvsdownvotes, tophashtags: tophashtags, recentposts: recentposts, allPubsub: allNotificatons })
 
     io.emit('val', val)
 }
 
 const program = async () => {
     const connection = mysql.createConnection({
-        host: '34.69.19.145',
-        user: 'root',
-        password: '1234',
+        host: process.env.CLOUDSQL_HOST,
+        user: process.env.CLOUDSQL_USER,
+        password: process.env.CLOUDSQL_PASS,
     });
 
     const instance = new MySQLEvents(connection, {
@@ -143,9 +153,20 @@ const pubsub = async () => {
 
     console.log("Listening for messages :)")
     const subscription = pubSubClient.subscription(subscriptionName);
-    const messageHandler = message => {
+    const messageHandler = async (message) => {
         let msj = message;
         myMessages.push(msj)
+
+        const mysql2 = require('mysql2/promise');
+        const connection = await mysql2.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+
+        try {
+
+            await connection.execute('INSERT INTO NOTIFICACION (cadena, api, tiempo, guardados) VALUES(?,?,?,?)',
+                [msj.data.toString() + "", msj.attributes.api.toString() + "", msj.attributes.tiempoDeCarga.toString() + "", msj.attributes.guardados.toString()]);
+        } catch (error) {
+            console.log(error)
+        }
 
         console.log(`Received message: id ${msj.id}`);
         console.log(`Data: ${msj.data}`);
@@ -154,10 +175,7 @@ const pubsub = async () => {
         message.ack();
     };
     console.log(`${messageCount} message(s) received.`);
-    subscription.on('message', (message) => {
-        messageHandler(message)
-        //io.emit('notificaciones', myMessages);
-    })
+    subscription.on('message', messageHandler)
 
     process.on('SIGINT', function () {
         subscription.removeListener('message', messageHandler);
@@ -169,17 +187,23 @@ const pubsub = async () => {
 }
 
 program()
-    .then(() => console.log('Waiting for database events...'))
+    .then(async () => {console.log('Waiting for database events...')})
     .catch(console.error);
 
 pubsub()
     .then(() => console.log('Waiting for Pub/Sub notifications...'))
     .catch(console.error);
 
-server.listen(8080)
+server.listen(process.env.NODE_API_PORT || 8080)
 console.log('Server on port', 8080)
 
 /*
+//const mysql = require('mysql2/promise');
+        //const connection = await mysql.createConnection({ host: process.env.CLOUDSQL_HOST, user: process.env.CLOUDSQL_USER, database: process.env.CLOUDSQL_DB, password: process.env.CLOUDSQL_PASS });
+
+        //await connection.execute('INSERT INTO NOTIFICATION (body) VALUES(?)', [msj]);
+
+
 db.query(
     `SELECT SUM(upvotes) AS TotalUpvotes
     FROM (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(hashtags, ',', numbers.n), ',', -1) hashtag, upvotes
