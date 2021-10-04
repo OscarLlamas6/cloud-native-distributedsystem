@@ -1,0 +1,48 @@
+###
+POST http://34.125.59.108:4000/publicar
+Content-Type: application/json
+
+{
+    "nombre": "Ansu fati",
+    "comentario": "Api en app engine",
+    "fecha": "11/09/2021",
+    "hashtags": ["docker","kunernetes","sopes"],
+    "upvotes": 40000,
+    "downvotes": 10000
+}
+
+###
+POST http://34.125.59.108:4001/publicar
+Content-Type: application/json
+
+{
+    "nombre": "Pin plata",
+    "comentario": "Probando socket escucha de mongo",
+    "fecha": "31/08/2021",
+    "hashtags": ["sopes","kubernetes","containerd"],
+    "upvotes": 200,
+    "downvotes": 200
+}
+
+
+###
+POST http://34.125.59.108:3040/publicar
+Content-Type: application/json
+
+{
+    "nombre": "Robert",
+    "comentario": "Probando socket io",
+    "fecha": "31/08/2021",
+    "hashtags": ["jdpantoja","chismesito","maurg1"],
+    "upvotes": 8000,
+    "downvotes": 30
+}
+
+###
+POST http://34.125.225.28:4000/notificar
+Content-Type: application/json
+
+{
+    "guardados": 11111,
+    "tiempoDeCarga": 2222
+}
