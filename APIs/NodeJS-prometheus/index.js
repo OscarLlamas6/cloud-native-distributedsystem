@@ -83,7 +83,7 @@ application.get('/metrics', async (req, res)=>{
     let data_debian = "";
   
     // Make Request Ubuntu
-    await axios.get('http://34.125.26.7:3065/leer')
+    await axios.get(`http://${process.env.IP_GRAFANA_UBUNTU}:3065/leer`)
     .then(response => {
 
       data = response.data;
@@ -96,7 +96,7 @@ application.get('/metrics', async (req, res)=>{
     });  
 
     // Make Request Centos
-    await axios.get('http://34.125.225.28:3065/leer')
+    await axios.get(`http://${process.env.IP_GRAFANA_CENTOS}:3065/leer`)
     .then(response => {
 
       data_centos = response.data;
@@ -109,7 +109,7 @@ application.get('/metrics', async (req, res)=>{
     }); 
 
     // Make Request Debian
-    await axios.get('http://34.125.59.108:3065/leer')
+    await axios.get(`http://${process.env.IP_GRAFANA_DEBIAN}:3065/leer`)
     .then(response => {
 
       console.log(data_debian);
