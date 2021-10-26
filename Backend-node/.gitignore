@@ -3,4 +3,4 @@ node_modules
 */node_modules
 pubsub.privatekey.json
 .env
-/api.rest
+./api.rest

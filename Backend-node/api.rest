@@ -43,6 +43,6 @@ POST http://34.125.225.28:4000/notificar
 Content-Type: application/json
 
 {
-    "guardados": 11111,
-    "tiempoDeCarga": 2222
+    "guardados": 20000,
+    "tiempoDeCarga": 20000
 }
