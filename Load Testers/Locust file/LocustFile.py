@@ -20,7 +20,7 @@ class JsonUtilities():
         try:
 
             # Open File
-            with open("./Traffic_Files/Traffic1.json", "r") as data:
+            with open("./Traffic_Files/data.json", "r") as data:
 
                 # Get Data Array 
                 self.dataArray = json.loads(data.read())
@@ -157,7 +157,7 @@ class LocustLoadTester(HttpUser):
             postBody = {
 
                 "guardados": self.sizeArray,
-                "tiempoDeCarga": round(final - self.startHour, 2)
+                "tiempoDeCarga": int(float(final - self.startHour))
 
             }
            
@@ -167,8 +167,8 @@ class LocustLoadTester(HttpUser):
             # Show Message 
             print("\nNo Data To Send")
 
-            # Pause 
-            input() 
-
             # Stop Service 
-            self.stop(True)              
+            self.stop(True)   
+
+            # Pause 
+            input()                      

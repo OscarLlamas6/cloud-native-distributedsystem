@@ -56,14 +56,17 @@ class Traffic():
             # Send Post 
             postBody = {
 
-                "guardados": len(Variables.dataArray),
-                "tiempoDeCarga": round(final - start, 2)
+                "guardados": self.Succesfully(),
+                "tiempoDeCarga": int(float(final - start))
 
             }
 
+            # Charge Time
+            Variables.chargeTime = int(float(final - start))
+
             # Make Request
-            response = requests.post(Variables.host + "/notificar", headers=headers, data=json.dumps(postBody))
-           
+            responsenotificar = requests.post(Variables.host + "/notificar", headers=headers, data=json.dumps(postBody))
+            
             # Show Message 
             print(colored("\nLoad Test Carried Out Successfully", "magenta"))
 
@@ -86,6 +89,24 @@ class Traffic():
 
             # Add Space
             print(" ", end="")
+
+    # Succesfully
+    def Succesfully(self):
+
+        # Success
+        succes = 0
+
+        # Generate Report
+        for Item in Variables.reportArray:
+
+            # Check Status
+            if Item.status_code >= 200 and Item.status_code < 300:
+
+                # Incremente Counter
+                succes += 1
+
+        # Show Message 
+        return succes
 
     # Report Test
     def reportTest(self):
@@ -146,3 +167,4 @@ class Traffic():
         # Show Message 
         print(colored("Number Of Data Sent Successfully!: " + str(succes) + "\n", "green"))
         print(colored("Number Of Data With Error!: " + str(error) + "\n", "red"))
+        print(colored("Charge Time!: " + str(Variables.chargeTime) + " segundos", "green"))
